@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0",
+  "preprocessing_version": "v1",
+  "transformation_policy": {
+    "original_text": "preserved exactly from # text; reconstructed only when absent",
+    "unicode": "stored unchanged; NFC normalization is used only to hash leakage_group_id",
+    "casing": "preserved",
+    "punctuation": "preserved",
+    "word_forms": "preserved",
+    "missing_optional_annotations": "stored as null for lemma/xpos and empty mappings for feats/misc",
+    "dataset_split": "upstream split retained as provenance; no project train/validation/test split created"
+  },
+  "source_datasets": [
+    {
+      "source_dataset": "UD_Finnish-TDT",
+      "source_commit": "bfaae13719f249573d940edda6a0d7aa8eec620f"
+    },
+    {
+      "source_dataset": "UD_Finnish-FTB",
+      "source_commit": "2dd197c1f7c4b9b6d69be1e3f826162a4443af96"
+    }
+  ],
+  "input_files": [
+    {
+      "source_dataset": "UD_Finnish-TDT",
+      "source_commit": "bfaae13719f249573d940edda6a0d7aa8eec620f",
+      "source_split": "train",
+      "path": "data/raw/finnish_tdt/fi_tdt-ud-train.conllu",
+      "sha256": "01c8b23d4b60fb7d500cb0f6ac61f5dec12d154e8a66433043a1495d067a7747",
+      "size_bytes": 13575645,
+      "sentences": 12217,
+      "word_tokens": 162815,
+      "multiword_tokens": 199,
+      "empty_nodes": 210
+    },
+    {
+      "source_dataset": "UD_Finnish-TDT",
+      "source_commit": "bfaae13719f249573d940edda6a0d7aa8eec620f",
+      "source_split": "dev",
+      "path": "data/raw/finnish_tdt/fi_tdt-ud-dev.conllu",
+      "sha256": "254a1e2a28437893e9dffcf9da746bfcd7ad8ef406c822a2ae7a2e7c5ed7ca8e",
+      "size_bytes": 1526666,
+      "sentences": 1364,
+      "word_tokens": 18308,
+      "multiword_tokens": 18,
+      "empty_nodes": 22
+    },
+    {
+      "source_dataset": "UD_Finnish-TDT",
+      "source_commit": "bfaae13719f249573d940edda6a0d7aa8eec620f",
+      "source_split": "test",
+      "path": "data/raw/finnish_tdt/fi_tdt-ud-test.conllu",
+      "sha256": "6ec8e9f8acfca05e96ff7ab109cf2734a61c7b0939e9205276fc74cca9f5e5fb",
+      "size_bytes": 1753468,
+      "sentences": 1555,
+      "word_tokens": 21070,
+      "multiword_tokens": 27,
+      "empty_nodes": 29
+    },
+    {
+      "source_dataset": "UD_Finnish-FTB",
+      "source_commit": "2dd197c1f7c4b9b6d69be1e3f826162a4443af96",
+      "source_split": "train",
+      "path": "data/raw/finnish_ftb/fi_ftb-ud-train.conllu",
+      "sha256": "b87bcd73b30257705a893e65328d536dbe53b2c453fb255eeb9a03903dc83764",
+      "size_bytes": 10725798,
+      "sentences": 14981,
+      "word_tokens": 127613,
+      "multiword_tokens": 254,
+      "empty_nodes": 0
+    },
+    {
+      "source_dataset": "UD_Finnish-FTB",
+      "source_commit": "2dd197c1f7c4b9b6d69be1e3f826162a4443af96",
+      "source_split": "dev",
+      "path": "data/raw/finnish_ftb/fi_ftb-ud-dev.conllu",
+      "sha256": "d64f7960a58037acad1f38ef183b736320fd29b646ba4d1116f22373b7efdf89",
+      "size_bytes": 1325526,
+      "sentences": 1875,
+      "word_tokens": 15726,
+      "multiword_tokens": 32,
+      "empty_nodes": 0
+    },
+    {
+      "source_dataset": "UD_Finnish-FTB",
+      "source_commit": "2dd197c1f7c4b9b6d69be1e3f826162a4443af96",
+      "source_split": "test",
+      "path": "data/raw/finnish_ftb/fi_ftb-ud-test.conllu",
+      "sha256": "cf912694182578780263521092847f027b5c1b181c98d5ad6381ce7bf3b59966",
+      "size_bytes": 1370731,
+      "sentences": 1867,
+      "word_tokens": 16286,
+      "multiword_tokens": 25,
+      "empty_nodes": 0
+    }
+  ],
+  "input_counts": {
+    "total": {
+      "sentences": 33859,
+      "word_tokens": 361818,
+      "multiword_tokens": 555,
+      "empty_nodes": 261
+    },
+    "by_dataset": {
+      "UD_Finnish-TDT": {
+        "sentences": 15136,
+        "word_tokens": 202193,
+        "multiword_tokens": 244,
+        "empty_nodes": 261
+      },
+      "UD_Finnish-FTB": {
+        "sentences": 18723,
+        "word_tokens": 159625,
+        "multiword_tokens": 311,
+        "empty_nodes": 0
+      }
+    },
+    "by_dataset_and_split": {
+      "UD_Finnish-TDT:train": {
+        "sentences": 12217,
+        "word_tokens": 162815,
+        "multiword_tokens": 199,
+        "empty_nodes": 210
+      },
+      "UD_Finnish-TDT:dev": {
+        "sentences": 1364,
+        "word_tokens": 18308,
+        "multiword_tokens": 18,
+        "empty_nodes": 22
+      },
+      "UD_Finnish-TDT:test": {
+        "sentences": 1555,
+        "word_tokens": 21070,
+        "multiword_tokens": 27,
+        "empty_nodes": 29
+      },
+      "UD_Finnish-FTB:train": {
+        "sentences": 14981,
+        "word_tokens": 127613,
+        "multiword_tokens": 254,
+        "empty_nodes": 0
+      },
+      "UD_Finnish-FTB:dev": {
+        "sentences": 1875,
+        "word_tokens": 15726,
+        "multiword_tokens": 32,
+        "empty_nodes": 0
+      },
+      "UD_Finnish-FTB:test": {
+        "sentences": 1867,
+        "word_tokens": 16286,
+        "multiword_tokens": 25,
+        "empty_nodes": 0
+      }
+    }
+  },
+  "output": {
+    "path": "data/processed/finnish_sentences_v1.jsonl",
+    "sha256": "1d2f14e1769e26adae58df808d28fc90231fbffedfa2db46528579e1a18b97f5",
+    "sentences": 33859,
+    "word_tokens": 361818,
+    "multiword_tokens": 555,
+    "empty_nodes": 261
+  },
+  "missing_value_statistics": {
+    "lemma": {
+      "missing_count": 32,
+      "missing_percent": 0.008844
+    },
+    "xpos": {
+      "missing_count": 7,
+      "missing_percent": 0.001935
+    },
+    "feats": {
+      "missing_count": 101410,
+      "missing_percent": 28.027904
+    },
+    "misc": {
+      "missing_count": 319805,
+      "missing_percent": 88.388361
+    }
+  },
+  "duplicate_statistics": {
+    "unique_text_groups": 33386,
+    "duplicate_text_groups": 380,
+    "records_in_duplicate_text_groups": 853,
+    "duplicate_records_beyond_first": 473,
+    "cross_dataset_duplicate_text_groups": 339,
+    "largest_duplicate_text_group": 21
+  },
+  "quality_checks": {
+    "all_rows_have_ten_columns": true,
+    "token_ids_validated": true,
+    "dependency_heads_validated": true,
+    "dependency_trees_acyclic": true,
+    "feats_syntax_validated": true,
+    "multiword_token_ranges_validated": true,
+    "sentence_ids_present_or_deterministically_fallback": true,
+    "source_ids_unique": true,
+    "all_records_have_source_traceability": true,
+    "all_records_have_leakage_group_id": true,
+    "input_output_sentence_counts_reconcile": true,
+    "input_output_word_counts_reconcile": true
+  }
+}

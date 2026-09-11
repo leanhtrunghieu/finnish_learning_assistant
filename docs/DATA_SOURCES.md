@@ -722,3 +722,51 @@ After acquisition, `git -C data/raw/finnish_tdt status --short` and
 The upstream `README` and `LICENSE` files are retained in each raw directory. The raw CoNLL-U files are read-only inputs for `notebooks/01_dataset_exploration.ipynb`; derived tables must be written under `data/processed/`, `data/errors/`, or `data/evaluation/` in later phases. The repository's existing `.gitignore` intentionally excludes `data/raw/*`, so redistribution of the source text should be handled deliberately and in accordance with the TDT CC BY-SA 4.0 and FTB CC BY 4.0 (or LGPLv3+) terms and the upstream text-source notices.
 
 The FTB README contains a stale human-readable word total (159,612); the checked-out `stats.xml` and direct CoNLL-U inspection agree on 159,625 syntactic words. Use the machine-readable metadata and parsed files for reproducible counts, and retain this discrepancy as a data-quality note.
+
+---
+
+# 28. Phase 3 Preprocessing Snapshot
+
+Phase 3 reads only the six CoNLL-U files and commits listed above. Run the
+reusable pipeline from the repository root with:
+
+```powershell
+python -m app.services.data_preprocessing --project-root .
+```
+
+The command verifies each raw repository commit before processing and writes:
+
+```text
+data/processed/finnish_sentences_v1.jsonl
+data/processed/preprocessing_manifest_v1.json
+```
+
+The JSONL contains one UTF-8 JSON object per source sentence. Each record keeps
+the source dataset, commit, upstream split, file, sentence ID, a deterministic
+`source_id`, unchanged `original_text`, and token-level Finnish annotations.
+Integer word IDs, multiword-token ranges, and decimal empty-node IDs remain
+distinct. Optional source underscores become `null` for lemma/XPOS and empty
+mappings for FEATS/MISC; they do not cause rows to be discarded. FEATS are
+parsed without limiting them to a small preselected key list, so annotations
+needed for later case, number, person, tense, mood, voice, and related rules are
+retained.
+
+The transformation deliberately does not lowercase, remove punctuation, stem,
+change word forms, or normalize Finnish grammar. NFC normalization is used only
+to calculate the deterministic `leakage_group_id`; `original_text` itself is
+preserved. Duplicate sources are retained for provenance. Records with equal
+NFC-normalized text share a leakage group, including duplicates across TDT and
+FTB. Future generated variants must copy this identifier and future project
+splits must keep each group intact.
+
+The manifest is generated from the actual run. It records both source commits,
+SHA-256 and size for every input, per-file/dataset/split counts, output count and
+hash, missing-value statistics, duplicate-group statistics, MWT and empty-node
+counts, and quality-check results. At the approved commits the reconciled total
+is 33,859 sentences and 361,818 integer-ID word tokens. These totals are audit
+expectations and are not hard-coded into the parser.
+
+`notebooks/02_preprocessing.ipynb` executes the same service module and presents
+the schema, examples, reconciliation, missing values, duplicates, special ID
+handling, and Phase 4 hand-off. No synthetic learner errors, final project data
+split, features, labels, or models are created in Phase 3.
