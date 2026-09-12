@@ -223,6 +223,44 @@ python -m pytest -q tests/test_database_service.py tests/test_profile_service.py
 Phase 7 does not add vocabulary, exercises, authentication, or the final
 Streamlit history/profile UI.
 
+## Run the Phase 8 vocabulary index
+
+Phase 8 builds a deterministic, corpus-bounded vocabulary index from the
+official FinnWordNet 2.0 archive and the Phase 3 processed UD corpus. The
+FinnWordNet archive is downloaded separately because the raw-data ignore rule
+keeps source archives out of Git:
+
+```powershell
+New-Item -ItemType Directory -Force data/raw/vocabulary
+Invoke-WebRequest `
+  -Uri https://www.kielipankki.fi/download/FinnWordNet/v2.0/FinnWordNet-2.0.zip `
+  -OutFile data/raw/vocabulary/FinnWordNet-2.0.zip
+python -m app.services.vocabulary_service --project-root .
+```
+
+The command writes `data/vocabulary/vocabulary_index_v1.jsonl` and its
+computed `vocabulary_manifest_v1.json`. FinnWordNet supplies factual English
+meanings and lexical POS; the Phase 3 corpus supplies only observed Finnish
+forms, UD morphology, frequencies, and short attributed examples. Lookups
+preserve Finnish Unicode and the user's query, expose `found`, `ambiguous`, or
+`not_found` status, and never fabricate unobserved inflections or meanings.
+When the same observed surface form has several UD FEATS analyses, all variants
+and their corpus counts are retained; the most frequent variant remains the
+compact primary `features` view. FinnWordNet meanings are unranked sense
+candidates rather than a context-disambiguated translation, and qualified
+(for example, unconfirmed or approximate) translations are excluded.
+The service-level API is:
+
+```python
+from app.services.vocabulary_service import VocabularyService
+
+result = VocabularyService("data/vocabulary/vocabulary_index_v1.jsonl").lookup("koulu")
+```
+
+See `data/vocabulary/ATTRIBUTION.md` and `docs/DATA_SOURCES.md` for source
+licenses and limitations. Phase 8 does not add LLM enrichment, vocabulary
+history, or the final Streamlit vocabulary page.
+
 ## Run the application
 
 ```powershell

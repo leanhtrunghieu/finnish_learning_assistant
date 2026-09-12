@@ -897,8 +897,50 @@ included in weakness aggregation, and stored confidence is not used as an
 uncalibrated weight.
 
 Phase 7 provides service-level persistence and profile calculation only. The
-polished Streamlit history/profile views, vocabulary, exercises, and
-authentication remain later-phase work.
+polished Streamlit history/profile views, exercises, and authentication remain
+later-phase work; vocabulary is implemented separately in Phase 8.
+
+---
+
+## 24.4 Phase 8 Vocabulary Service
+
+Phase 8 adds an independent, service-level vocabulary subsystem. It is
+deliberately corpus-bounded rather than a complete Finnish dictionary:
+
+```text
+FinnWordNet 2.0 (meanings/POS)
+             +
+Phase 3 UD corpus (observed forms/features/examples)
+             ↓
+deterministic JSONL vocabulary index
+             ↓
+VocabularyService.lookup(query)
+             ↓
+typed VocabularyResult
+```
+
+`app/services/vocabulary_service.py` builds and loads
+`data/vocabulary/vocabulary_index_v1.jsonl`. FinnWordNet contributes factual
+English lexical meanings and POS; the processed TDT/FTB corpus contributes only
+observed Finnish forms, UD morphology, corpus frequency, and selected short
+examples. The index manifest records source hashes and computed counts. Inputs
+are NFC-normalized and case-folded only for lookup keys; the original query and
+surface forms remain unchanged. A query with several analyses returns
+`ambiguous`, an absent query returns `not_found`, and no complete Finnish
+inflection paradigm is generated.
+
+Each observed form retains its most frequent UD feature signature in `features`
+for a compact default view and every observed signature/count in
+`feature_analyses`, so syncretic or annotation-dependent morphology is not
+silently collapsed. Query-matching forms are marked at runtime. FinnWordNet
+translations carrying approximate, broader, narrower, unconfirmed, or other
+qualifier tags are conservatively excluded. Remaining meanings are explicitly
+documented as unranked sense candidates, not context-disambiguated definitions.
+
+The factual source and license details are recorded in
+`data/vocabulary/ATTRIBUTION.md` and `docs/DATA_SOURCES.md`. Phase 8 does not
+call the Phase 6 LLM, store vocabulary history, or add a Streamlit page; those
+boundaries keep lookup deterministic and leave later UI work independent.
 
 ---
 

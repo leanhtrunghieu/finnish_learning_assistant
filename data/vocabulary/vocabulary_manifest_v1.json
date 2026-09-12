@@ -1,0 +1,62 @@
+{
+  "counts": {
+    "analyses_with_examples": 40624,
+    "analyses_with_meanings": 12070,
+    "analysis_records": 40624,
+    "corpus_analyses": 40627,
+    "finnwordnet_analyses": 93150,
+    "finnwordnet_overlap_analyses": 12718,
+    "forms_with_multiple_feature_analyses": 5813,
+    "lookup_keys": 93547,
+    "observed_feature_analyses": 97240,
+    "observed_form_records": 90680
+  },
+  "finnwordnet_parsing": {
+    "accepted_finnish_terms": 150837,
+    "multiword_finnish_terms_excluded": 39919,
+    "qualified_finnish_terms_excluded": 12049,
+    "rows_read": 120449
+  },
+  "index_version": "v1",
+  "output_sha256": "f136908c864ac1de6311400cb3aea2dbc61220397c079879845bab1e52171fef",
+  "quality_checks": {
+    "deterministic_sorting": true,
+    "generated_forms": false,
+    "meanings_from_finnwordnet_only": true,
+    "morphological_ambiguity_preserved": true,
+    "qualified_translations_excluded": true,
+    "unicode_preserved": true
+  },
+  "schema_version": "1.0",
+  "source_hashes": {
+    "finnwordnet_archive": "fd613d9fb4bedf16002bfddef01fac6c0d2db79a701a35189557c909b9000615",
+    "processed_dataset": "1d2f14e1769e26adae58df808d28fc90231fbffedfa2db46528579e1a18b97f5"
+  },
+  "sources": [
+    {
+      "fields": [
+        "lemma",
+        "part_of_speech",
+        "meanings"
+      ],
+      "license": "Princeton WordNet license + CC BY 3.0",
+      "name": "FinnWordNet",
+      "source_id": "finnwordnet-2.0",
+      "url": "https://www.kielipankki.fi/download/FinnWordNet/v2.0/FinnWordNet-2.0.zip",
+      "version": "2.0"
+    },
+    {
+      "fields": [
+        "observed_forms",
+        "morphology",
+        "frequency",
+        "example"
+      ],
+      "license": "TDT CC BY-SA 4.0; FTB CC BY 4.0",
+      "name": "UD Finnish-TDT + UD Finnish-FTB (Phase 3 processed corpus)",
+      "source_id": "phase3-finnish-corpus-v1",
+      "url": "https://universaldependencies.org/treebanks/fi_tdt/index.html",
+      "version": "Phase 3 v1"
+    }
+  ]
+}

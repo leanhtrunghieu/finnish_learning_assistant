@@ -885,3 +885,55 @@ The case file is an evaluation aid rather than a new linguistic source. No
 learner corpus is introduced, and the Phase 3--5 datasets remain unchanged.
 Systematic scoring of this set belongs to the later evaluation phase; Phase 6
 provides mocked unit tests and opt-in live smoke tests for the service itself.
+
+---
+
+# 32. Phase 8 Vocabulary Sources
+
+Phase 8 uses two legally documented sources and keeps their roles separate.
+
+## FinnWordNet 2.0
+
+* **Official archive:** https://www.kielipankki.fi/download/FinnWordNet/v2.0/FinnWordNet-2.0.zip
+* **Official README:** https://www.kielipankki.fi/download/FinnWordNet/v2.0/README.txt
+* **Role:** Finnish lemma/synset mappings, lexical part of speech, and English
+  translations/glosses from the downloadable TSV/WordNet data.
+* **License:** Princeton WordNet license plus Creative Commons Attribution 3.0
+  for the University of Helsinki translations. The Princeton copyright notice
+  and University of Helsinki attribution must be preserved.
+* **Limitations:** a WordNet is a lexical-semantic resource, not a learner
+  dictionary or complete Finnish morphology generator. Multiword expressions
+  and sense distinctions are retained only where the Phase 8 one-token index
+  can represent them safely. English meanings are aggregated, unranked sense
+  candidates rather than context-disambiguated translations. Finnish entries
+  tagged as approximate, broader, narrower, unconfirmed, or otherwise qualified
+  are excluded instead of having their caution markers stripped.
+
+## UD Finnish-TDT and UD Finnish-FTB through Phase 3
+
+* **TDT:** https://universaldependencies.org/treebanks/fi_tdt/index.html
+* **FTB:** https://universaldependencies.org/treebanks/fi_ftb/index.html
+* **Role:** observed surface forms, lemmas, Universal POS tags, FEATS,
+  frequencies, and selected short corpus examples from the validated Phase 3
+  JSONL.
+* **Licenses:** TDT CC BY-SA 4.0; FTB CC BY 4.0, as recorded in the Phase 2
+  acquisition snapshot.
+* **Limitations:** UD corpora are annotated examples, not dictionaries. They do
+  not provide authoritative English definitions, and observed forms are not a
+  complete paradigm. The index therefore reports only forms actually observed
+  in the corpus and keeps source IDs for examples. When one surface form has
+  several observed UD feature signatures, the index preserves every signature
+  and its count rather than presenting one analysis as uniquely correct.
+
+The resulting `data/vocabulary/vocabulary_index_v1.jsonl` is a deterministic,
+corpus-bounded derived artifact. `data/vocabulary/vocabulary_manifest_v1.json`
+records the Phase 3 and FinnWordNet hashes, source metadata, counts, and quality
+checks. FinnWordNet archive acquisition is reproducible from the official URL;
+the downloaded archive remains under ignored `data/raw/vocabulary/`. Attribution
+is also copied to `data/vocabulary/ATTRIBUTION.md`.
+
+Kotus Nykysuomen sanalista, Omorfi, and FreeDict were reviewed as possible
+future sources but are not Phase 8 dependencies: Kotus provides headwords and
+inflection codes without definitions, Omorfi adds GPLv3/HFST integration scope,
+and FreeDict requires checking each dictionary's TEI license before use. No
+restricted online dictionary is scraped.
