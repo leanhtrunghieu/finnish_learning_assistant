@@ -162,6 +162,30 @@ Open `notebooks/04_ml_baseline.ipynb` and use **Run All** to reproduce the
 experiment and view per-class metrics, the final test confusion matrix, learned
 character features, shortcut checks, and representative misclassifications.
 
+## Run the Phase 6 grammar service
+
+Phase 6 adds a provider-isolated grammar service without connecting it to the
+Streamlit UI or learner database. Copy `.env.example` to `.env`, set
+`LLM_API_KEY` and `LLM_MODEL`, and use a compatible JSON-chat endpoint in
+`LLM_API_BASE_URL`. Never commit the real key.
+
+For a configured provider, a basic smoke check is:
+
+```powershell
+python -m app.services.grammar_service "Minä menee kouluun."
+```
+
+The service validates the Finnish input, loads the versioned prompt, requests
+structured JSON through `llm_service.py`, retries one transient or malformed
+response, and returns a typed grammar result. It supports standard Finnish by
+default and an explicit `--colloquial-tolerant` mode. The supported learner
+taxonomy is `CASE_ERROR`, `VERB_CONJUGATION`, `NOUN_INFLECTION`, `WORD_ORDER`,
+`AGREEMENT`, `SPELLING`, and `OTHER`.
+
+Phase 6 does not save history, update profiles, generate exercises, or integrate
+the full UI. `data/evaluation/grammar_cases_v1.jsonl` is a manually curated
+functional/evaluation case set; systematic evaluation remains a later phase.
+
 ## Run the application
 
 ```powershell

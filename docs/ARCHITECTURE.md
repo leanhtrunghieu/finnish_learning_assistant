@@ -823,6 +823,40 @@ labels and are not evidence of general Finnish grammar checking capability.
 
 ---
 
+# 24.2 Phase 6 LLM Grammar Service
+
+Phase 6 keeps grammar analysis behind two service boundaries:
+
+```text
+GrammarService
+    ↓
+LLMClient protocol
+    ↓
+OpenAI-compatible JSON provider adapter
+    ↓
+validated GrammarResult
+```
+
+`grammar_service.py` owns Finnish input validation, prompt loading, language
+mode, one repair attempt, and cross-field result validation. `llm_service.py`
+owns environment configuration, HTTP transport, provider status mapping,
+bounded retries, and response-envelope extraction. The provider adapter is not
+called from Streamlit UI code.
+
+The typed models in `app/models/grammar.py` use dataclasses and explicit
+validation because Pydantic is not an available project dependency. They enforce
+the seven learner-oriented categories, confidence bounds, original-sentence
+identity, correct/incorrect consistency, multiple-error limits, and conservative
+uncertainty handling. The versioned prompt is stored in
+`app/prompts/grammar_checker_prompt.txt`.
+
+The Phase 5 classifier remains an experimental comparison artifact. It is not
+used to decide whether a learner sentence is correct, to override the LLM, or to
+act as a production fallback. Phase 6 deliberately does not add persistence,
+profiles, vocabulary, exercises, or full UI integration.
+
+---
+
 # 25. External API Isolation
 
 Do not call the LLM API directly from Streamlit UI code.
