@@ -1,4 +1,4 @@
-"""Initial Streamlit home screen for Phase 1."""
+"""Home screen for the Finnish Learning Assistant."""
 
 import streamlit as st
 
@@ -12,17 +12,23 @@ APP_DESCRIPTION = (
 
 
 def render_home(settings: Settings) -> None:
-    """Render the Phase 1 application shell."""
+    """Render a concise landing page for the integrated MVP."""
 
     st.title(settings.app_title)
     st.write(APP_DESCRIPTION)
     st.divider()
-    st.subheader("Project foundation")
+    st.subheader("Your learning loop")
+    st.markdown("**Write → Check → Understand → Remember → Analyze → Practice**")
     st.write(
-        "The Streamlit shell, configuration, logging, and test structure are "
-        "ready for the later data and learning phases."
+        "Check a Finnish sentence, review the explanation, see recurring weaknesses, "
+        "look up a word, and practise a targeted grammar topic. Use the navigation in "
+        "the sidebar to begin."
     )
-    st.info(
-        "Grammar analysis and learner features will be added in later phases."
-    )
+    left, middle, right = st.columns(3)
+    with left:
+        st.info("**Grammar Checker**\n\nFind errors and understand the correction.")
+    with middle:
+        st.info("**Vocabulary**\n\nExplore corpus-backed Finnish forms and meanings.")
+    with right:
+        st.info("**Practice**\n\nWork on the grammar weakness that appears most often.")
 

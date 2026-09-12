@@ -991,6 +991,36 @@ material and require later manual linguistic evaluation.
 
 ---
 
+# 24.6 Phase 10 Streamlit Integration
+
+Phase 10 keeps Streamlit as a thin presentation layer over the existing
+services. `app.py` owns configuration, sidebar navigation, and page routing;
+the page modules under `app/ui/` render state and call the grammar, database,
+profile, vocabulary, and exercise services. Provider-specific calls remain
+behind `GrammarService`, `ExerciseService`, and the shared LLM transport.
+
+Stable resources are constructed through `app/ui/services.py` and cached with
+`st.cache_resource`: the initialized SQLite service, shared LLM service,
+grammar/exercise services, and the static vocabulary index. Learner-specific
+history and profiles are queried on each page render rather than cached
+indefinitely.
+
+Grammar and exercise provider calls happen only after explicit form/button
+actions. The grammar page saves one validated result in the submitted action
+and stores its check ID in `st.session_state`; rendering a later rerun does not
+save again. The Practice page stores the current validated exercise and answer
+result in session state, so selecting an option or checking an answer does not
+generate a replacement exercise. The MVP uses `demo_user`, has no
+authentication, and reports provider/configuration failures as concise UI
+messages without exposing tracebacks or secrets.
+
+The six pages are Home, Grammar Checker, Vocabulary, My Mistakes (including the
+weakness profile), Practice, and About. The Phase 5 classifier remains a
+comparison artifact and is not placed in the end-user grammar flow. Phase 10
+does not alter prior datasets, models, services, or add Phase 11 evaluation.
+
+---
+
 # 25. External API Isolation
 
 Do not call the LLM API directly from Streamlit UI code.

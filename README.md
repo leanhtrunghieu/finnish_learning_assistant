@@ -296,14 +296,34 @@ Run the focused tests with:
 .\.venv\Scripts\python.exe -m pytest -q tests/test_exercise_service.py
 ```
 
-## Run the application
+## Run the integrated Streamlit application (Phase 10)
 
 ```powershell
 streamlit run app.py --server.address localhost
 ```
 
-The Phase 1 screen displays the project name and a short description. Later phases will add the learning workflow described in the project documents.
-Use an explicit non-local address only when intentionally demonstrating the app on a trusted network.
+Copy `.env.example` to `.env` and set the LLM provider values before using
+grammar-checker or practice actions. The application still starts without an
+API key so local vocabulary, history, profile, and About pages remain usable;
+LLM-dependent actions show a controlled configuration message. Use the sidebar
+to navigate between Home, Grammar Checker, Vocabulary, My Mistakes, Practice,
+and About. The demo learner is `demo_user`.
+
+Grammar results are saved once per explicit **Check Grammar** action to the
+ignored local database `database/finnish_learning_assistant.db`. Practice
+exercises stay in Streamlit session state until the learner explicitly requests
+a new exercise; no authentication is included in this MVP.
+
+Run the UI-supporting tests with:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q tests/test_app_shell.py tests/test_ui_integration.py
+```
+
+The app is a local educational MVP, not a general-purpose Finnish grammar
+checker or complete dictionary. LLM-generated explanations and exercises may
+require manual review. Use an explicit non-local address only when intentionally
+demonstrating the app on a trusted network.
 
 ## Project structure
 
