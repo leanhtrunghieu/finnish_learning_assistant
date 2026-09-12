@@ -22,6 +22,8 @@ data/processed/*
 !data/processed/preprocessing_manifest_v1.json
 data/errors/*
 !data/errors/.gitkeep
+!data/errors/synthetic_errors_v1.jsonl
+!data/errors/error_generation_manifest_v1.json
 
 *.db
 *.sqlite

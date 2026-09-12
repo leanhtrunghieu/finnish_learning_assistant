@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0",
+  "generator_version": "v1",
+  "input": {
+    "processed_path": "data/processed/finnish_sentences_v1.jsonl",
+    "processed_sha256": "1d2f14e1769e26adae58df808d28fc90231fbffedfa2db46528579e1a18b97f5",
+    "preprocessing_manifest_path": "data/processed/preprocessing_manifest_v1.json",
+    "preprocessing_manifest_sha256": "68bfc65d16738adeb183c2f62af46a301e0885cc620081e5b22b930a929edbc3",
+    "preprocessing_schema_version": "1.0",
+    "source_sentences": 33859
+  },
+  "configuration": {
+    "random_seed": 42,
+    "maximum_examples_per_class": 1000,
+    "minimum_examples_per_class": 500,
+    "maximum_variants_per_leakage_group": 2,
+    "maximum_examples_per_lemma_per_class": 50,
+    "minimum_sentence_words": 3,
+    "maximum_sentence_words": 30,
+    "manual_review_examples_per_class": 20
+  },
+  "generation_rules": [
+    {
+      "generation_rule": "adjective_case_mismatch_v1",
+      "error_type": "CASE_ERROR",
+      "description": "Replace an agreeing adjectival modifier with a corpus-attested form of the same lemma and number but a different case.",
+      "replacement_source": "corpus-attested form with matching non-target features"
+    },
+    {
+      "generation_rule": "finite_verb_person_number_mismatch_v1",
+      "error_type": "VERB_CONJUGATION",
+      "description": "Replace a finite active indicative verb with a corpus-attested form of the same lemma whose person/number conflicts with its overt pronoun subject.",
+      "replacement_source": "corpus-attested form with matching non-target features"
+    },
+    {
+      "generation_rule": "adjective_number_agreement_mismatch_v1",
+      "error_type": "AGREEMENT",
+      "description": "Replace an agreeing adjectival modifier with a corpus-attested form of the same lemma and case but the opposite number.",
+      "replacement_source": "corpus-attested form with matching non-target features"
+    }
+  ],
+  "eligible_candidate_counts": {
+    "AGREEMENT": 5114,
+    "CASE_ERROR": 8181,
+    "VERB_CONJUGATION": 1478
+  },
+  "source_exclusion_counts": {
+    "no_eligible_rule": 22614,
+    "sentence_has_mwt_or_empty_node": 756,
+    "sentence_length_outside_limits": 2198
+  },
+  "candidate_rejections": {
+    "exact_duplicate_candidates_removed": 55,
+    "extra_candidates_within_group_and_class_removed": 2022,
+    "class_cap": 9548,
+    "leakage_group_cap": 5,
+    "lemma_cap": 143
+  },
+  "validation_failures": {},
+  "output": {
+    "path": "data/errors/synthetic_errors_v1.jsonl",
+    "sha256": "1669cccd1b68eaf04fad5c520ca9d38b5e13a47904d84cda4574f0e623a97fca",
+    "records": 3000,
+    "counts_by_class": {
+      "AGREEMENT": 1000,
+      "CASE_ERROR": 1000,
+      "VERB_CONJUGATION": 1000
+    },
+    "unique_source_ids": 2816,
+    "unique_leakage_groups": 2813,
+    "maximum_variants_in_one_leakage_group": 2
+  },
+  "duplicate_statistics": {
+    "duplicate_synthetic_ids": 0,
+    "duplicate_leakage_label_sentence_records": 0
+  },
+  "manual_review_sample": {
+    "selection": "deterministic SHA-256 rank within each class",
+    "examples_per_class": 20,
+    "total_examples": 60,
+    "synthetic_ids": [
+      "sha256:da6d686994f60d1bcb6f9be51f8e6d50913c0a3fc6fe821c77dc89d4bf479072",
+      "sha256:a5c10faf09b89b073a64e9f92ca9bd94802fa885da113073e13d075416be7ded",
+      "sha256:cc9fe63cd66a4fe87c9a052d37f5937bd01c0ef894ed197cc1c6f555e0131888",
+      "sha256:6c754815883f15c033968745f89f8b7fe8d33bae32902905eb219bab6ee9d3ba",
+      "sha256:d8ce7e7d83b9ab8e5a5747dea123fbf15fe348b8714b0aaac395eb9d986201a3",
+      "sha256:bc325aabec4958ebffbacdde0d7d8154b9173358e98dde63ff6d6e6575565387",
+      "sha256:404e0dee62934f6ea2855ed5fb476c273a1b5549ec9bef73f268c2fc1055f405",
+      "sha256:58bb43376c29f96ef8fdd850602e9c11fd5f9e740a991f1a79d3bdc541ae17bb",
+      "sha256:2bad7e278d634089e5ae7b5abd481ef7e4079a44ec2b0d412170ee6c9733d47b",
+      "sha256:4b3e59149c0cb8255b1313a536d1683a5988b89eac991d79d31489bccff44dd7",
+      "sha256:da7098ff2169363a523409c6a767cb38ea39e2f6f55008eb0d7f45bf2da8b2a6",
+      "sha256:7e1783cf0fe5e3600d0c582ee940bcb86766df610f178fff75c606e25c316be5",
+      "sha256:09eb6a519770abaa35048adf15b15eb85cd44d9976b90894811c472abee74857",
+      "sha256:b8c4e7f452defa02268bb4873075c879e167384347a61c7af603b018a2982b45",
+      "sha256:8c97b0acacc25cff53584ee74903f195fafbac1a965dd18d91d3436a549700dd",
+      "sha256:f8df9a6f7ccd6d08bb85bfbcd2960db74a77f194da55b6235cf63d9997059e9b",
+      "sha256:170bb87ba710772e58cde4ba0b3a55d3359f1b8e5790854e4aa57e89aabcee3e",
+      "sha256:8c2cf07fecc42f9b5f04d0226b5ae9b6db1817697e6c3d2104799f32a15ea6d1",
+      "sha256:f4ab4c42ec0b3bed9f578ecca7c96b2615a0eecd84c4b3cad6fad5a3ce9db057",
+      "sha256:b26a1f25818ab44af77abafa332b7b3513e7ed7b494a63374756f132c8b7dde1",
+      "sha256:638ccb7a4a4285a9de0af7c8ef7e00bc3816c44d54ccc279762aa256ac2a7a72",
+      "sha256:ff0c28d93dcf819006a09ba0aac6086bbd1c8aa287ff1b01c379e5e52222f0e6",
+      "sha256:a3c89ffcc0e20650835f0a37cdd335a8626eb142d935d543200fd3169be5d80c",
+      "sha256:5f0568bc81197dc169df3cf939449f2ef221e95140cba9b37c47989d36becfbe",
+      "sha256:b55ab4001ed541fb6067e5235abba4c27a6938c1480f27e233592b237d977008",
+      "sha256:e3fa89240530fa660ee1b146b126b0a4773488fa195935f3378781d67d77d75a",
+      "sha256:b87bc6124f9e588568cb67c87bd47e4e4a5e7e39aea8276e2c61e954e504c999",
+      "sha256:62e68f99551a91eff8008970c33b23f77e7f6d491da884617d40e1a9201007ca",
+      "sha256:bc27d055d125255be3a0f7e9aca0e7b969d614698a60aa89b126ab92e0e133a5",
+      "sha256:f2faf4dd861c333089c3116cf9c946a49d8dbfa2b6eca272f539f32151d89f1c",
+      "sha256:18a6ce62fa264c3df3b0eab40b3e6286d668b19fed4e507f2ad8e3465753e222",
+      "sha256:0099e20dac751fd7e634a5cf1f0629362c3d309af750a3fc3d8fdac4afb7359d",
+      "sha256:b75e138faded9136c63ea99c316419d53c480cf38d14250bfaf27f870ee5427a",
+      "sha256:0ef1d441f3e28adc6a35295ffa4d814eba170b1a5d672584d734627eb45e2969",
+      "sha256:c15dd6bd7e14bd514a35e9544a465b6e0a8f970a17aee9d44f39966b3ac2083c",
+      "sha256:ae5a33376218930902421401db34128d4246a69e5f319cf45745aad49a8c599f",
+      "sha256:daafb2b2ff1bf348a91633ed27528ad70011cf11328c62143b3416c7f423294c",
+      "sha256:a1f531dd4a774a4920937fa761a14ba6816d120f1a8c128a8ee337bb367ce16f",
+      "sha256:0b8f6e7004f08261962e038c716489c09fa04abb20e4140ebe4de974482e5562",
+      "sha256:d60fe861892703ce1eac79a77ce6f0f75cbaf8ff91ec0987820f237bd7e45748",
+      "sha256:fbc7c8514f0e863028807d089137d28d5b4d9efb0b546618446b6e31b10d6673",
+      "sha256:c49a6d2a7edeecf390e9ad20c9eafe80d79d7cba04bf513a15d6c9b04aaf624d",
+      "sha256:29f0fe10ebd21f0f7e047341beb9adcffd02db185567f5af2981a44d524f9fd3",
+      "sha256:6d4fb58303e5b699e124b938a680ace016624734839e4e8d4be56bff478d1c09",
+      "sha256:7db034c557d586dac9e9f4295f118a37fd7cc8fcfbffc88c82a9bad06d3ed36a",
+      "sha256:6b17896060ee439e94e70543a047d54d2b290d1127ae1880e94ad32ad02a10c3",
+      "sha256:250c5402b83521f905991226de3c85aa66402f2934cf4ba4ececc522681e8db4",
+      "sha256:efe411e6dc48faee710b36a4f1c12e8d862dd5e99f3a289ee81e3fb3805b351e",
+      "sha256:06cc196dfdda0bda0c96f2ecbb2ae7bf55d03d843708644e6d11dc2418d8bd85",
+      "sha256:7fdb0a74892cd5c0d5972c714c5e60576ade9b1c0c5eeabcd542532612c8b169",
+      "sha256:af8a50d335e6d3ce3dbc1d1e0b62fa147a763178960371d26361408899220353",
+      "sha256:4e315e9b16ae18f68426afa96512707654f232b4204d2378dbb03e61635401cd",
+      "sha256:9e59bb91eae7944535ffe627fdce69ed4f329f5acea72589088fb6e2b4ffdacd",
+      "sha256:63472a5c0161368d312701439c8e5a31229499f9ea4429b28fb4815430530a20",
+      "sha256:1659e7bd71c017f728b5dfeaa01c0e549a358aa836505e51aef70de386751022",
+      "sha256:037355a3f37ebe0248527ac218e48d352042524feabfe0a03975768068f0963e",
+      "sha256:181eac7ce80ebc8eba5943a36493821f1af52811183359e8cb8b1dc2966ee60b",
+      "sha256:1ad204b3b06012332561000fc31d382550ceee7cf8f88fbd0f498f87011a5039",
+      "sha256:df5eea8ba5d87bdceaf0a8077053fd1bc6d2ca238a18c53d0a32a79d360d7f61",
+      "sha256:46fc7cb12f4aa57cc7cf9723655bdab9f88eecab78576c8e1147d0ce6641d031"
+    ],
+    "status": "selected for documented human review; automated checks are not a linguistic guarantee"
+  },
+  "quality_checks": {
+    "phase3_input_hash_verified": true,
+    "all_source_ids_exist": true,
+    "all_leakage_groups_match_source": true,
+    "all_records_validated": true,
+    "all_synthetic_ids_unique": true,
+    "all_duplicate_keys_unique": true,
+    "classes_balanced": true,
+    "leakage_group_cap_respected": true,
+    "no_project_split_created": true
+  }
+}

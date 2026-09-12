@@ -32,6 +32,22 @@ workflow and audit.
 No learner errors, project data split, feature extraction, or model training is
 performed in this phase.
 
+## Phase 4 status
+
+Phase 4 creates a controlled synthetic learner-error dataset from the validated
+Phase 3 sentences. The reusable generator in `app/services/error_generation.py`
+uses only three narrow, annotation-supported categories: adjective case
+mismatch (`CASE_ERROR`), finite-verb person/number mismatch
+(`VERB_CONJUGATION`), and adjective number mismatch (`AGREEMENT`). Replacement
+forms must already occur in the Phase 3 corpus with compatible morphology; the
+generator does not synthesize Finnish inflections. Positive adjective degree is
+accepted both when explicitly marked by TDT and when left unmarked by FTB;
+comparatives, superlatives, ordinals, and other extra analyses remain excluded.
+
+Each example changes exactly one aligned token span, records its correction and
+rule, and copies `source_id` and `leakage_group_id`. Phase 4 does not create the
+final train/validation/test split or train a model.
+
 ## Technology plan
 
 - Python
@@ -95,6 +111,31 @@ splitting.
 
 For the presentation-oriented audit, open `notebooks/02_preprocessing.ipynb`
 with the project environment and use **Run All**.
+
+## Run Phase 4 error generation
+
+After producing the Phase 3 files, run:
+
+```powershell
+python -m app.services.error_generation --project-root .
+```
+
+The command verifies the Phase 3 JSONL against its manifest, generates the
+versioned JSONL and manifest under `data/errors/`, validates every record, and
+fails rather than guessing when a rule is not safe. The fixed default seed is
+42. Sampling is balanced at 1,000 examples per class, with at most two variants
+per leakage group and 50 per lemma/class.
+
+`data/errors/synthetic_errors_v1.jsonl` stores one UTF-8 JSON object per
+single-error example. Its core fields include `synthetic_id`, source provenance,
+`leakage_group_id`, correct and incorrect sentences, `error_type`, exact
+character `error_span`, `correction`, `generation_rule`, `changed_token_id`, and
+auditable rule metadata. `data/errors/error_generation_manifest_v1.json` stores
+input/output hashes, configuration, computed candidate/rejection counts,
+class distribution, duplicate checks, and a deterministic manual-review sample.
+
+Open `notebooks/03_error_generation.ipynb` and use **Run All** for the
+presentation-oriented audit and representative examples.
 
 ## Run the application
 

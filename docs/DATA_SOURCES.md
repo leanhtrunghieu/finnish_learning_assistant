@@ -770,3 +770,72 @@ expectations and are not hard-coded into the parser.
 the schema, examples, reconciliation, missing values, duplicates, special ID
 handling, and Phase 4 hand-off. No synthetic learner errors, final project data
 split, features, labels, or models are created in Phase 3.
+
+---
+
+# 29. Phase 4 Synthetic Learner-Error Snapshot
+
+Phase 4 reads `data/processed/finnish_sentences_v1.jsonl` without modifying it.
+The generator first verifies that file against the Phase 3 manifest, then uses
+the sentence text, token spans, morphology, dependencies, and provenance through:
+
+```powershell
+python -m app.services.error_generation --project-root .
+```
+
+The generated artifacts are:
+
+```text
+data/errors/synthetic_errors_v1.jsonl
+data/errors/error_generation_manifest_v1.json
+```
+
+The approved initial taxonomy is deliberately narrow. `CASE_ERROR` changes the
+case of an agreeing attributive adjective while keeping number and degree;
+`VERB_CONJUGATION` changes the person and/or number of a finite active indicative
+verb with one overt, matching nominative personal-pronoun subject; and
+`AGREEMENT` changes the number of an agreeing attributive adjective while
+keeping case and degree. Every replacement is a surface form observed elsewhere
+in the Phase 3 corpus for the same lemma and compatible retained features.
+Generated morphology is never guessed.
+
+TDT explicitly records `Degree=Pos` on ordinary positive adjectives, whereas
+FTB normally leaves positive degree unmarked and marks comparative/superlative
+forms explicitly. The generator treats both positive conventions as eligible
+within their own complete feature signatures. Analyses carrying `Degree=Cmp`,
+`Degree=Sup`, `NumType`, `Style`, or other unsafe extra features remain excluded.
+
+Each record contains one exact character-span replacement and its known inverse
+correction. Prefix and suffix text are checked byte-for-text equality at the
+Python string level, so unrelated casing, punctuation, whitespace, and Finnish
+characters remain untouched. Sentences with multiword-token rows or empty nodes
+are excluded from version 1 because one-to-one editable surface alignment is
+not guaranteed. Other exclusions include unsafe morphology, missing reliable
+dependency evidence, token-span alignment failure, and the configured 3--30 word
+length range.
+
+The default deterministic configuration uses seed 42, caps each class at 1,000
+examples, allows no more than one example of a class per leakage group, two
+total variants per leakage group, and 50 examples per lemma/class. The three
+classes are balanced after selection. The manifest reports eligible candidates,
+every selection/exclusion count, validation failures, duplicate checks, the
+final output SHA-256, and a deterministic sample of 20 examples per category for
+manual review. These are computed run results rather than target constants.
+
+All variants inherit the Phase 3 `source_id` and `leakage_group_id`. Phase 4 does
+not split the data: Phase 5 must use `leakage_group_id` as an indivisible group
+when assigning train, validation, and test partitions. Synthetic data remains a
+controlled proxy rather than proof that every example matches a naturally
+occurring learner error; the notebook therefore exposes category-stratified
+examples for human inspection and documents that limitation.
+
+Phase 4 review also identified residual shortcut risk after harmonizing the
+treebanks' positive-adjective annotation convention. The final 3,000 records
+contain 1,363 FTB and 1,637 TDT sources, but the FTB share is higher for
+`VERB_CONJUGATION` (659/1,000) than for `CASE_ERROR` (365/1,000) or `AGREEMENT`
+(339/1,000). Verb examples are also shorter on average because the rule requires
+an overt personal-pronoun subject. Phase 5 must not interpret high classification
+accuracy as direct evidence of general Finnish grammar understanding. It should
+stratify the grouped split by error label and source dataset where feasible,
+remove formatting-only whitespace cues in its feature view, inspect learned
+features, and report performance by source dataset as a sensitivity check.
