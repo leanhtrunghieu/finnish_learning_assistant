@@ -857,6 +857,51 @@ profiles, vocabulary, exercises, or full UI integration.
 
 ---
 
+# 24.3 Phase 7 Learner History and Weakness Profile
+
+Phase 7 persists validated grammar results locally with Python's built-in
+`sqlite3`. The database service is intentionally small and independent of the
+LLM provider:
+
+```text
+GrammarResult
+    ↓
+DatabaseService
+    ├── grammar_checks (one row per analysis)
+    └── grammar_errors (zero or more rows per check)
+    ↓
+ProfileService
+    └── deterministic counts, percentages, and primary weakness
+```
+
+The default runtime path is `database/finnish_learning_assistant.db`, and the
+existing `*.db`, `*.sqlite`, and `*.sqlite3` ignore rules prevent local learner
+history from being committed. The MVP associates rows with a lightweight
+`learner_id` such as `demo_user`; authentication and account management are
+out of scope.
+
+`grammar_checks` stores the original/corrected sentence, correctness flag,
+explanation, learning tip, language mode, analysis status, uncertainty note,
+schema version, learner ID, and UTC timestamp. `grammar_errors` stores the
+canonical Phase 6 error type, text, correction, explanation, confidence, and
+its ordered position under the parent check. Foreign keys and an explicit
+`PRAGMA foreign_keys = ON` enforce the one-to-many relationship.
+
+Saving a result uses one transaction: the parent check and every child error
+are committed together or rolled back together. Correct checks are retained
+for history but produce no child errors. The profile is calculated from actual
+stored error rows rather than duplicated counters. Counts are ranked by
+descending frequency and then error-type name; percentages are based on total
+complete-analysis errors. `UNCERTAIN` analyses remain retrievable but are not
+included in weakness aggregation, and stored confidence is not used as an
+uncalibrated weight.
+
+Phase 7 provides service-level persistence and profile calculation only. The
+polished Streamlit history/profile views, vocabulary, exercises, and
+authentication remain later-phase work.
+
+---
+
 # 25. External API Isolation
 
 Do not call the LLM API directly from Streamlit UI code.

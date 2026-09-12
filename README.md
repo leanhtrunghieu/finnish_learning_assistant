@@ -186,6 +186,43 @@ Phase 6 does not save history, update profiles, generate exercises, or integrate
 the full UI. `data/evaluation/grammar_cases_v1.jsonl` is a manually curated
 functional/evaluation case set; systematic evaluation remains a later phase.
 
+## Run Phase 7 learner history and profile services
+
+Phase 7 adds local SQLite persistence for validated Phase 6 grammar results. The
+default runtime database is `database/finnish_learning_assistant.db`; runtime
+database files are ignored by Git and must not contain committed learner data.
+The schema has one `grammar_checks` row per analysis and zero or more related
+`grammar_errors` rows. Correct checks are retained for history but create no
+error rows. Saving a result and all of its errors is one atomic transaction.
+
+The MVP uses the lightweight learner identifier `demo_user`; it does not add
+accounts or authentication. `ProfileService` calculates error counts,
+percentages, deterministic rankings, and the primary weakness from stored
+complete analyses. Uncertain analyses remain available in history but are
+excluded from weakness aggregation. Model-reported confidence is stored for
+inspection and is not used as an uncalibrated weight.
+
+The service-level flow is:
+
+```python
+from app.services.database_service import DatabaseService
+from app.services.profile_service import ProfileService
+
+database = DatabaseService()
+database.initialize()
+check_id = database.save_grammar_result("demo_user", result)
+profile = ProfileService(database).get_profile("demo_user")
+```
+
+Run the persistence and profile tests with:
+
+```powershell
+python -m pytest -q tests/test_database_service.py tests/test_profile_service.py
+```
+
+Phase 7 does not add vocabulary, exercises, authentication, or the final
+Streamlit history/profile UI.
+
 ## Run the application
 
 ```powershell
@@ -206,7 +243,7 @@ app/
 ├── prompts/     # Versioned LLM prompts added in later phases
 └── utils/       # Configuration, logging, and shared errors
 data/            # Raw, processed, error, and evaluation data
-database/        # SQLite artifacts added in a later phase
+database/        # Local SQLite runtime database (ignored by Git)
 models/          # Trained model artifacts added in a later phase
 notebooks/       # Data and ML notebooks added in later phases
 tests/           # Automated tests
