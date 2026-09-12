@@ -24,6 +24,13 @@ data/errors/*
 !data/errors/.gitkeep
 !data/errors/synthetic_errors_v1.jsonl
 !data/errors/error_generation_manifest_v1.json
+data/evaluation/*
+!data/evaluation/.gitkeep
+!data/evaluation/train_v1.jsonl
+!data/evaluation/validation_v1.jsonl
+!data/evaluation/test_v1.jsonl
+!data/evaluation/ml_split_manifest_v1.json
+!data/evaluation/ml_test_predictions_v1.jsonl
 
 *.db
 *.sqlite
@@ -31,3 +38,4 @@ data/errors/*
 
 models/*.pkl
 models/*.joblib
+!models/error_classifier_v1.joblib

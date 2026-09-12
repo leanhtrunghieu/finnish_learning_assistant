@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "split_version": "v1",
+  "input": {
+    "path": "data/errors/synthetic_errors_v1.jsonl",
+    "sha256": "1669cccd1b68eaf04fad5c520ca9d38b5e13a47904d84cda4574f0e623a97fca",
+    "phase4_manifest_path": "data/errors/error_generation_manifest_v1.json",
+    "phase4_manifest_sha256": "e91eb2030fb84fdac3a6dce2ec77aaf64af19bbf01311861b793c2e30bd47f95"
+  },
+  "configuration": {
+    "random_seed": 42,
+    "algorithm": "StratifiedGroupKFold",
+    "stratification_key": "error_type|source_dataset",
+    "group_key": "leakage_group_id",
+    "n_splits": 20,
+    "fold_allocation": {
+      "train": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "validation": [
+        14,
+        15,
+        16
+      ],
+      "test": [
+        17,
+        18,
+        19
+      ]
+    }
+  },
+  "total_records": 3000,
+  "splits": {
+    "train": {
+      "path": "data/evaluation/train_v1.jsonl",
+      "sha256": "453cc0312a9ca0864cea2bb143e7f93f9fadbc5dc147997ad8603f1f0d5ade54",
+      "records": 2101,
+      "proportion": 0.7003333333333334,
+      "leakage_groups": 1968,
+      "class_distribution": {
+        "AGREEMENT": 701,
+        "CASE_ERROR": 700,
+        "VERB_CONJUGATION": 700
+      },
+      "source_distribution": {
+        "UD_Finnish-FTB": 955,
+        "UD_Finnish-TDT": 1146
+      },
+      "composite_distribution": {
+        "AGREEMENT|UD_Finnish-FTB": 238,
+        "AGREEMENT|UD_Finnish-TDT": 463,
+        "CASE_ERROR|UD_Finnish-FTB": 256,
+        "CASE_ERROR|UD_Finnish-TDT": 444,
+        "VERB_CONJUGATION|UD_Finnish-FTB": 461,
+        "VERB_CONJUGATION|UD_Finnish-TDT": 239
+      }
+    },
+    "validation": {
+      "path": "data/evaluation/validation_v1.jsonl",
+      "sha256": "2149699bb0f3b93bf58c5bf21c8d0854f4ba57f97c0f6bfc52fc7f3b654f4efb",
+      "records": 450,
+      "proportion": 0.15,
+      "leakage_groups": 423,
+      "class_distribution": {
+        "AGREEMENT": 150,
+        "CASE_ERROR": 150,
+        "VERB_CONJUGATION": 150
+      },
+      "source_distribution": {
+        "UD_Finnish-FTB": 204,
+        "UD_Finnish-TDT": 246
+      },
+      "composite_distribution": {
+        "AGREEMENT|UD_Finnish-FTB": 51,
+        "AGREEMENT|UD_Finnish-TDT": 99,
+        "CASE_ERROR|UD_Finnish-FTB": 54,
+        "CASE_ERROR|UD_Finnish-TDT": 96,
+        "VERB_CONJUGATION|UD_Finnish-FTB": 99,
+        "VERB_CONJUGATION|UD_Finnish-TDT": 51
+      }
+    },
+    "test": {
+      "path": "data/evaluation/test_v1.jsonl",
+      "sha256": "c78681ed01a809372528d1e696c18b6d54201a9d379e9fb755681fc45e3a519c",
+      "records": 449,
+      "proportion": 0.14966666666666667,
+      "leakage_groups": 422,
+      "class_distribution": {
+        "AGREEMENT": 149,
+        "CASE_ERROR": 150,
+        "VERB_CONJUGATION": 150
+      },
+      "source_distribution": {
+        "UD_Finnish-FTB": 204,
+        "UD_Finnish-TDT": 245
+      },
+      "composite_distribution": {
+        "AGREEMENT|UD_Finnish-FTB": 50,
+        "AGREEMENT|UD_Finnish-TDT": 99,
+        "CASE_ERROR|UD_Finnish-FTB": 55,
+        "CASE_ERROR|UD_Finnish-TDT": 95,
+        "VERB_CONJUGATION|UD_Finnish-FTB": 99,
+        "VERB_CONJUGATION|UD_Finnish-TDT": 51
+      }
+    }
+  },
+  "quality_checks": {
+    "all_records_assigned_once": true,
+    "all_synthetic_ids_unique_across_splits": true,
+    "leakage_group_isolation": {
+      "passed": true,
+      "intersection_counts": {
+        "train_validation": 0,
+        "train_test": 0,
+        "validation_test": 0
+      },
+      "intersections": {
+        "train_validation": [],
+        "train_test": [],
+        "validation_test": []
+      }
+    }
+  },
+  "fold_assignment_sha256": "d33bcc1e1448c5095ce3c2a21b117b36984a5613adeaf08fd83d4b7ccb7541e1"
+}

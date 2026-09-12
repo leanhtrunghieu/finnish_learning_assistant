@@ -839,3 +839,33 @@ accuracy as direct evidence of general Finnish grammar understanding. It should
 stratify the grouped split by error label and source dataset where feasible,
 remove formatting-only whitespace cues in its feature view, inspect learned
 features, and report performance by source dataset as a sensitivity check.
+
+---
+
+# 30. Phase 5 Evaluation Snapshot
+
+Run the deterministic baseline with:
+
+```powershell
+python -m app.services.ml_training --project-root .
+```
+
+The Phase 4 JSONL remains unchanged. Phase 5 writes the exact record objects into
+`data/evaluation/train_v1.jsonl`, `validation_v1.jsonl`, and `test_v1.jsonl`.
+`data/evaluation/ml_split_manifest_v1.json` records the Phase 4 data and manifest
+hashes, seed 42, the grouped-fold algorithm, actual proportions, per-split class
+and source distributions, output hashes, and zero-overlap evidence. Test
+predictions are stored separately in `ml_test_predictions_v1.jsonl` for audited
+error analysis.
+
+Every `leakage_group_id` is assigned to exactly one partition. Approximate
+label/source stratification is secondary to that constraint. Feature vocabulary
+and inverse-document-frequency values are fitted only from the training JSONL.
+The saved model metadata in `models/error_classifier_v1_metadata.json` links the
+input hash, split-manifest hash, full experiment configuration, metrics, model
+artifact hash, and limitations. Re-running with the same files and configuration
+reproduces the split and predictions.
+
+Licensing and provenance remain inherited from Phase 2--4 source records. The
+evaluation files are derived synthetic data, not naturally sampled Finnish
+learner writing, and must not be used to claim real-world diagnostic coverage.

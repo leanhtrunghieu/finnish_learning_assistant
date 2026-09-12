@@ -1,0 +1,1396 @@
+{
+  "schema_version": "1.0",
+  "model_version": "v1",
+  "prediction_task": {
+    "input": "incorrect_sentence",
+    "target": "error_type"
+  },
+  "input_dataset": {
+    "path": "data/errors/synthetic_errors_v1.jsonl",
+    "sha256": "1669cccd1b68eaf04fad5c520ca9d38b5e13a47904d84cda4574f0e623a97fca"
+  },
+  "runtime_versions": {
+    "python": "3.12.14",
+    "numpy": "2.5.3",
+    "scikit_learn": "1.9.0",
+    "joblib": "1.6.0"
+  },
+  "split_manifest": {
+    "path": "data/evaluation/ml_split_manifest_v1.json",
+    "sha256": "aca4c4e2d5b9978a7c7ebb58035b3b98f4d17eab3c6420057d10a89682aab341"
+  },
+  "configuration": {
+    "random_seed": 42,
+    "n_splits": 20,
+    "train_folds": 14,
+    "validation_folds": 3,
+    "test_folds": 3,
+    "analyzer": "char_wb",
+    "ngram_min": 3,
+    "ngram_max": 5,
+    "min_df": 2,
+    "max_features": 50000,
+    "sublinear_tf": true,
+    "lowercase": true,
+    "logistic_c": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 2000,
+    "class_weight": null
+  },
+  "feature_configuration": {
+    "normalization": "NFC; collapse whitespace; remove formatting-only spaces before ,.;:!? in feature view only",
+    "vectorizer": "TfidfVectorizer",
+    "analyzer": "char_wb",
+    "ngram_range": [
+      3,
+      5
+    ],
+    "vocabulary_size": 31413,
+    "fit_scope": "training split only"
+  },
+  "classifier_configuration": {
+    "type": "LogisticRegression",
+    "C": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 2000,
+    "class_weight": null,
+    "random_state": 42,
+    "iterations_by_class": [
+      31
+    ]
+  },
+  "labels": [
+    "AGREEMENT",
+    "CASE_ERROR",
+    "VERB_CONJUGATION"
+  ],
+  "record_counts": {
+    "train": 2101,
+    "validation": 450,
+    "test": 449
+  },
+  "metrics": {
+    "train": {
+      "accuracy": 0.9333650642551166,
+      "macro_precision": 0.9329927984725587,
+      "macro_recall": 0.9333781672440731,
+      "macro_f1": 0.9331291921169136,
+      "log_loss": 0.5090133425196561,
+      "per_class": {
+        "AGREEMENT": {
+          "precision": 0.9123563218390804,
+          "recall": 0.905848787446505,
+          "f1": 0.9090909090909091,
+          "support": 701
+        },
+        "CASE_ERROR": {
+          "precision": 0.9173913043478261,
+          "recall": 0.9042857142857142,
+          "f1": 0.9107913669064748,
+          "support": 700
+        },
+        "VERB_CONJUGATION": {
+          "precision": 0.9692307692307692,
+          "recall": 0.99,
+          "f1": 0.9795053003533569,
+          "support": 700
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "AGREEMENT",
+          "CASE_ERROR",
+          "VERB_CONJUGATION"
+        ],
+        "values": [
+          [
+            635,
+            54,
+            12
+          ],
+          [
+            57,
+            633,
+            10
+          ],
+          [
+            4,
+            3,
+            693
+          ]
+        ]
+      }
+    },
+    "validation": {
+      "accuracy": 0.6911111111111111,
+      "macro_precision": 0.6855755941082705,
+      "macro_recall": 0.6911111111111111,
+      "macro_f1": 0.687278112352729,
+      "log_loss": 0.7054920106948354,
+      "per_class": {
+        "AGREEMENT": {
+          "precision": 0.5759493670886076,
+          "recall": 0.6066666666666667,
+          "f1": 0.5909090909090909,
+          "support": 150
+        },
+        "CASE_ERROR": {
+          "precision": 0.5939849624060151,
+          "recall": 0.5266666666666666,
+          "f1": 0.558303886925795,
+          "support": 150
+        },
+        "VERB_CONJUGATION": {
+          "precision": 0.8867924528301887,
+          "recall": 0.94,
+          "f1": 0.912621359223301,
+          "support": 150
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "AGREEMENT",
+          "CASE_ERROR",
+          "VERB_CONJUGATION"
+        ],
+        "values": [
+          [
+            91,
+            48,
+            11
+          ],
+          [
+            64,
+            79,
+            7
+          ],
+          [
+            3,
+            6,
+            141
+          ]
+        ]
+      }
+    },
+    "test": {
+      "accuracy": 0.7104677060133631,
+      "macro_precision": 0.7083834995986699,
+      "macro_recall": 0.7102162565249813,
+      "macro_f1": 0.7092018584133576,
+      "log_loss": 0.7035128466118609,
+      "per_class": {
+        "AGREEMENT": {
+          "precision": 0.6180555555555556,
+          "recall": 0.5973154362416108,
+          "f1": 0.6075085324232082,
+          "support": 149
+        },
+        "CASE_ERROR": {
+          "precision": 0.5855263157894737,
+          "recall": 0.5933333333333334,
+          "f1": 0.5894039735099338,
+          "support": 150
+        },
+        "VERB_CONJUGATION": {
+          "precision": 0.9215686274509803,
+          "recall": 0.94,
+          "f1": 0.9306930693069307,
+          "support": 150
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "AGREEMENT",
+          "CASE_ERROR",
+          "VERB_CONJUGATION"
+        ],
+        "values": [
+          [
+            89,
+            56,
+            4
+          ],
+          [
+            53,
+            89,
+            8
+          ],
+          [
+            2,
+            7,
+            141
+          ]
+        ]
+      }
+    }
+  },
+  "interpretation": {
+    "top_positive_features": {
+      "AGREEMENT": [
+        {
+          "feature": "iset ",
+          "weight": 1.2409909060000606
+        },
+        {
+          "feature": "iset",
+          "weight": 1.2087074419397883
+        },
+        {
+          "feature": "set ",
+          "weight": 1.1978200628485138
+        },
+        {
+          "feature": "et ",
+          "weight": 1.1481556347690243
+        },
+        {
+          "feature": "set",
+          "weight": 1.0248052967672494
+        },
+        {
+          "feature": "ien",
+          "weight": 0.8008529865356006
+        },
+        {
+          "feature": "ten ",
+          "weight": 0.7665114571258518
+        },
+        {
+          "feature": "hyvät",
+          "weight": 0.7176038532548346
+        },
+        {
+          "feature": " omi",
+          "weight": 0.6898006130719551
+        },
+        {
+          "feature": "sten",
+          "weight": 0.6819675203654343
+        },
+        {
+          "feature": "ien ",
+          "weight": 0.678738697578935
+        },
+        {
+          "feature": "ten",
+          "weight": 0.6680206113062575
+        },
+        {
+          "feature": "ent",
+          "weight": 0.6673242124994275
+        },
+        {
+          "feature": "omi",
+          "weight": 0.6527752864394605
+        },
+        {
+          "feature": "sten ",
+          "weight": 0.6466573450597805
+        },
+        {
+          "feature": "ste",
+          "weight": 0.615416883088646
+        },
+        {
+          "feature": " ko",
+          "weight": 0.60165410223197
+        },
+        {
+          "feature": "yvät",
+          "weight": 0.5947131681815774
+        },
+        {
+          "feature": "yvät ",
+          "weight": 0.5947131681815774
+        },
+        {
+          "feature": "lis",
+          "weight": 0.5630611915013357
+        }
+      ],
+      "CASE_ERROR": [
+        {
+          "feature": "ine",
+          "weight": 0.8462764545986488
+        },
+        {
+          "feature": "nen ",
+          "weight": 0.8079088727757083
+        },
+        {
+          "feature": "inen ",
+          "weight": 0.7930406374110917
+        },
+        {
+          "feature": "inen",
+          "weight": 0.7737031290967635
+        },
+        {
+          "feature": "nen",
+          "weight": 0.7592155672750424
+        },
+        {
+          "feature": "isen ",
+          "weight": 0.6906199795055162
+        },
+        {
+          "feature": " oma",
+          "weight": 0.6567806604893328
+        },
+        {
+          "feature": "isen",
+          "weight": 0.6561539860808415
+        },
+        {
+          "feature": "vää ",
+          "weight": 0.610763257714366
+        },
+        {
+          "feature": " va",
+          "weight": 0.5881504098302177
+        },
+        {
+          "feature": "lli",
+          "weight": 0.571119330732495
+        },
+        {
+          "feature": "hyvää",
+          "weight": 0.5383368261377888
+        },
+        {
+          "feature": "yvää",
+          "weight": 0.5207458529363331
+        },
+        {
+          "feature": "oma",
+          "weight": 0.5205960213313245
+        },
+        {
+          "feature": "oman ",
+          "weight": 0.5083500460900957
+        },
+        {
+          "feature": "yvää ",
+          "weight": 0.5075435730874603
+        },
+        {
+          "feature": "oman",
+          "weight": 0.49905723297814075
+        },
+        {
+          "feature": "yvä ",
+          "weight": 0.49275363845221254
+        },
+        {
+          "feature": " oman",
+          "weight": 0.4886290328171274
+        },
+        {
+          "feature": "en ",
+          "weight": 0.4873082987725033
+        }
+      ],
+      "VERB_CONJUGATION": [
+        {
+          "feature": " hän ",
+          "weight": 4.0598538847664
+        },
+        {
+          "feature": "hän ",
+          "weight": 4.001130781175054
+        },
+        {
+          "feature": " hän",
+          "weight": 3.806061125311107
+        },
+        {
+          "feature": "hän",
+          "weight": 3.748262802259821
+        },
+        {
+          "feature": " hä",
+          "weight": 3.6969800598119567
+        },
+        {
+          "feature": "än ",
+          "weight": 2.9409575031561346
+        },
+        {
+          "feature": "inä ",
+          "weight": 2.1942841811016716
+        },
+        {
+          "feature": "inä",
+          "weight": 2.189316160335259
+        },
+        {
+          "feature": "nä ",
+          "weight": 2.136583393021184
+        },
+        {
+          "feature": " minä",
+          "weight": 1.935714550132902
+        },
+        {
+          "feature": "minä",
+          "weight": 1.889598035437261
+        },
+        {
+          "feature": "minä ",
+          "weight": 1.7892567082995363
+        },
+        {
+          "feature": " mä ",
+          "weight": 1.7862844674527318
+        },
+        {
+          "feature": " min",
+          "weight": 1.7236604418556059
+        },
+        {
+          "feature": " mä",
+          "weight": 1.624594753469672
+        },
+        {
+          "feature": " mi",
+          "weight": 1.5952500672608494
+        },
+        {
+          "feature": "mä ",
+          "weight": 1.4283095225523204
+        },
+        {
+          "feature": "min",
+          "weight": 1.3773596837764417
+        },
+        {
+          "feature": " sinä",
+          "weight": 1.0529710793678766
+        },
+        {
+          "feature": " sä ",
+          "weight": 1.0109346660541585
+        }
+      ]
+    },
+    "high_confidence_correct_test_examples": {
+      "AGREEMENT": [
+        {
+          "synthetic_id": "sha256:126c03dd7adb42a3d8d468b885cf9408f31469678289105163e8692bbfdc3216",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-dev.conllu:e1046.1",
+          "leakage_group_id": "sha256:6e321244067c8e23871d3ab9b8974c6a95974a299345fa88a3f9d8452f4d93ae",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": ". – Arvoisa puhemies, arvoisa komission jäsen, hyvät kollegat, käytän muutaman minuutin esitelläkseni mietintöni alueellisten yhteenkuuluvuuden roolista aluekehityksessä.",
+          "true_label": "AGREEMENT",
+          "predicted_label": "AGREEMENT",
+          "confidence": 0.7494479665936328,
+          "probabilities": {
+            "AGREEMENT": 0.7494479665936328,
+            "CASE_ERROR": 0.18495265976961658,
+            "VERB_CONJUGATION": 0.06559937363675054
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:df66830ddf37b4bb3bc83f58fde1f04558ceb3a6b05d518393f2096594a2a308",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:j022.73",
+          "leakage_group_id": "sha256:a6a4500a23efb97ec2c1bbe7bab7db3f071d646638ed27a6407a27ccb40508c8",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Tällaisissa tapauksissa tehdään oikaisuja tuonnin ja jälleenmyynnin välisten kaikenlaisten kustannusten, myös verojen ja tullien, ja voittomarginaalin huomioon ottamiseksi luotettavien vientihinnan laskemiseksi yhteisön rajalla.",
+          "true_label": "AGREEMENT",
+          "predicted_label": "AGREEMENT",
+          "confidence": 0.7355835148453862,
+          "probabilities": {
+            "AGREEMENT": 0.7355835148453862,
+            "CASE_ERROR": 0.2291687482203972,
+            "VERB_CONJUGATION": 0.03524773693421664
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:159e4714ce51941771e3093c689427d459bf48ac775674b78fb9d032150ac5ca",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:e1047.12",
+          "leakage_group_id": "sha256:3d0d98e7cfd4f686f51ddd14ceebb48406f6d41c4b69a7a2507c7817d532eba1",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Näiden erojen on syytä saada kansainväliset yhteisö harkitsemaan uudelleen jatkuvan pakotepolitiikan ja myös pommitusten oikeutusta.",
+          "true_label": "AGREEMENT",
+          "predicted_label": "AGREEMENT",
+          "confidence": 0.6993072698966724,
+          "probabilities": {
+            "AGREEMENT": 0.6993072698966724,
+            "CASE_ERROR": 0.2662475463340161,
+            "VERB_CONJUGATION": 0.03444518376931164
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:1659e7bd71c017f728b5dfeaa01c0e549a358aa836505e51aef70de386751022",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:u005.16",
+          "leakage_group_id": "sha256:baa158651e15a500aa78b9561ef221bf772e08baa581bb146e6263186c3e8fb5",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Dosentti Marko Lehti toi keskustelussa esiin EU:n poliittisten legitimiteetin.",
+          "true_label": "AGREEMENT",
+          "predicted_label": "AGREEMENT",
+          "confidence": 0.6669901202380882,
+          "probabilities": {
+            "AGREEMENT": 0.6669901202380882,
+            "CASE_ERROR": 0.20695090739382055,
+            "VERB_CONJUGATION": 0.1260589723680912
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:a244c1db70c82651ffadd0271d8c7920ca36e9f6e6aac4b2e772dc517648853b",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:diwvs-3141",
+          "leakage_group_id": "sha256:2506e7b837389c5ef6cfa6eb3b4d1cbbbf0c42cc118ecedfa89c3a568e00ca37",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "pienten ihmisen puolesta taistelleen",
+          "true_label": "AGREEMENT",
+          "predicted_label": "AGREEMENT",
+          "confidence": 0.6602347675667307,
+          "probabilities": {
+            "AGREEMENT": 0.6602347675667307,
+            "CASE_ERROR": 0.2732915552867936,
+            "VERB_CONJUGATION": 0.06647367714647567
+          },
+          "correct": true
+        }
+      ],
+      "CASE_ERROR": [
+        {
+          "synthetic_id": "sha256:a1ac3a7b6a617b2c022aacdfdb8355faae3cddb6ee9b8a01982e50d2007da37b",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:u018.5",
+          "leakage_group_id": "sha256:cbd13ef7f05f48277f3a8d9d194227d28ccee4e7b0796a07ea5fba429b6f859d",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Tutkijat Emma Vironmäki ja Leena Jokinen esittelivät tilaisuudessa, mitä odotuksia yliopistojen yhteiskunnallisen vuorovaikutukseen kohdistuu heidän tekemänsä selvityksen valossa.",
+          "true_label": "CASE_ERROR",
+          "predicted_label": "CASE_ERROR",
+          "confidence": 0.6450498305190193,
+          "probabilities": {
+            "AGREEMENT": 0.26092613663386366,
+            "CASE_ERROR": 0.6450498305190193,
+            "VERB_CONJUGATION": 0.09402403284711684
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:f93301fd85176451b7e666e7c1e5043ba9bc1ba750758e18455f9f33a91597a8",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:e1065.19",
+          "leakage_group_id": "sha256:4adbe8ccacc241d85c7a9f21a9e999e1e2d5ef40d6ece2144cf649ea6b3e6794",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Siitä tulee normaali käytäntö, ja oleellinen ero ulkoisen ja sisäisen luokituksen välillä on se, että sisäisessä luokitus on jäsenvaltioissa rahoitusvalvonnan alainen mutta ulkoinen luokitus ei ole.",
+          "true_label": "CASE_ERROR",
+          "predicted_label": "CASE_ERROR",
+          "confidence": 0.6414972778691981,
+          "probabilities": {
+            "AGREEMENT": 0.287317605566864,
+            "CASE_ERROR": 0.6414972778691981,
+            "VERB_CONJUGATION": 0.07118511656393783
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:899941dffff5743fe03d3af817e88a47d3e5c45251c0680104679ea298fbac38",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:w186.9",
+          "leakage_group_id": "sha256:83f026fc675ec2ab7c68fdd1b04808e8d18af38455b8e3014f13dda37b223cfd",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Toinen teoria nimen alkuperästä perustuu alkuperäiseen ruotsinkielinen kirjoitusasuun Kåcklot, jossa Kåck eli Kock tulkitaan henkilönnimeksi.",
+          "true_label": "CASE_ERROR",
+          "predicted_label": "CASE_ERROR",
+          "confidence": 0.6385577661337074,
+          "probabilities": {
+            "AGREEMENT": 0.24992387774449798,
+            "CASE_ERROR": 0.6385577661337074,
+            "VERB_CONJUGATION": 0.11151835612179464
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:76d9e82f6a420de9817b295135aab5f3c0944616e209e9ad05342766c38f1b48",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:u035.11",
+          "leakage_group_id": "sha256:a904b0350a7003d92962e3dd7ff78c8ef6cf3af0c9fd5ad775c45b01042a2939",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "- Esimerkiksi riidan toinen osapuoli voi väittää, että jokin asia - kansallisen laki, kielto tai normi - on EU-oikeuden vastainen ja siksi sitä ei voida noudattaa.",
+          "true_label": "CASE_ERROR",
+          "predicted_label": "CASE_ERROR",
+          "confidence": 0.6296214776153704,
+          "probabilities": {
+            "AGREEMENT": 0.2767195026167536,
+            "CASE_ERROR": 0.6296214776153704,
+            "VERB_CONJUGATION": 0.09365901976787608
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:572cfc3d818025ef27d216c68839ff589b80d58b2c35b6c29e462cbf0e8d4ed5",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:byr0k-4469",
+          "leakage_group_id": "sha256:8d4e0c9e82f79efd3e70602198148d835e27328faa36f341601602487da71cca",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "Tukholman Oopperakellarin barokkityylinen pääruokasali on ulkoista olemukseltaan ehkä hienoin ravintola Pohjolassa .",
+          "true_label": "CASE_ERROR",
+          "predicted_label": "CASE_ERROR",
+          "confidence": 0.6181293587398417,
+          "probabilities": {
+            "AGREEMENT": 0.26745081773957535,
+            "CASE_ERROR": 0.6181293587398417,
+            "VERB_CONJUGATION": 0.11441982352058305
+          },
+          "correct": true
+        }
+      ],
+      "VERB_CONJUGATION": [
+        {
+          "synthetic_id": "sha256:eae17602c69142d1d9787ab3a382a92e7c6dd9287ac3dba89727d80638c4d66f",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:yf2hm-10869",
+          "leakage_group_id": "sha256:9599b18967f29ed3d58c50819a490c6745112606826747f446f61798d8a66c60",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "Minä tietää mitä minä haluan .",
+          "true_label": "VERB_CONJUGATION",
+          "predicted_label": "VERB_CONJUGATION",
+          "confidence": 0.9908439205256346,
+          "probabilities": {
+            "AGREEMENT": 0.0038707947370973,
+            "CASE_ERROR": 0.00528528473726795,
+            "VERB_CONJUGATION": 0.9908439205256346
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:23002e962f49f0eab808e52e77b1dc6d555e0b367158ffe8f379f62672cdca04",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:p3mz6-10871",
+          "leakage_group_id": "sha256:6fe3a2d2a018f866cecf5eb77e97c014b82599c2bf7c0c2e5d8553ea42d85349",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "Minä tietää että mitä minä haluan",
+          "true_label": "VERB_CONJUGATION",
+          "predicted_label": "VERB_CONJUGATION",
+          "confidence": 0.9906220214245464,
+          "probabilities": {
+            "AGREEMENT": 0.004226835297675736,
+            "CASE_ERROR": 0.005151143277777993,
+            "VERB_CONJUGATION": 0.9906220214245464
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:b4247b404f2957ce8cc2f7f74423e008750414f09a00b5f5ed3fb964ffdf3162",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-dev.conllu:kghv3-9966",
+          "leakage_group_id": "sha256:6dbf5cad53c22c4bc94cf31b8dbc492202b2237077340b467b2bb70327bb4fce",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "Kun minä olin lapsi , niin minä teki mitä halusin .",
+          "true_label": "VERB_CONJUGATION",
+          "predicted_label": "VERB_CONJUGATION",
+          "confidence": 0.9774069771634036,
+          "probabilities": {
+            "AGREEMENT": 0.0097031349666216,
+            "CASE_ERROR": 0.01288988786997484,
+            "VERB_CONJUGATION": 0.9774069771634036
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:485216a42f549cee2636bd9ff4ea149e3087ab5cbc21dedb9eb135e22df3cac3",
+          "source_id": "UD_Finnish-TDT:fi_tdt-ud-dev.conllu:h1044.14",
+          "leakage_group_id": "sha256:d97bfb02401c9a17e607dd2be16aa4671a14cb5cc0cdb9cca7877478f72b7b6f",
+          "source_dataset": "UD_Finnish-TDT",
+          "incorrect_sentence": "Hän ei tiedä että sinä seurasi häntä",
+          "true_label": "VERB_CONJUGATION",
+          "predicted_label": "VERB_CONJUGATION",
+          "confidence": 0.9764696834228036,
+          "probabilities": {
+            "AGREEMENT": 0.012865252799277822,
+            "CASE_ERROR": 0.010665063777918662,
+            "VERB_CONJUGATION": 0.9764696834228036
+          },
+          "correct": true
+        },
+        {
+          "synthetic_id": "sha256:b3f463911bb7fde6e179ff51c7a0877d43cbd65c197a0d042ba61a44c4ae6dbb",
+          "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:pvz4r-9623",
+          "leakage_group_id": "sha256:53e2c7d9ccc4b38c63be0fa8ff83b93c6e3d072279717cc623143942b9990847",
+          "source_dataset": "UD_Finnish-FTB",
+          "incorrect_sentence": "Sinä tekee , minä määrään .",
+          "true_label": "VERB_CONJUGATION",
+          "predicted_label": "VERB_CONJUGATION",
+          "confidence": 0.9754272317609682,
+          "probabilities": {
+            "AGREEMENT": 0.010641250707905708,
+            "CASE_ERROR": 0.013931517531126135,
+            "VERB_CONJUGATION": 0.9754272317609682
+          },
+          "correct": true
+        }
+      ]
+    },
+    "misclassified_test_examples": [
+      {
+        "synthetic_id": "sha256:1862b84b76dded2beaf463c112e48f0b7d292b448b738fe68b6d299c75aa8f96",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:w013.14",
+        "leakage_group_id": "sha256:2582aa15a61a982378f2ebce3041fbd052bec801616138ea153b8ce0e2b80afe",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Kielellä on rikkaat uskonnollinen ja historiallinen kirjallisuus.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.7137186208928423,
+        "probabilities": {
+          "AGREEMENT": 0.22763317556581056,
+          "CASE_ERROR": 0.7137186208928423,
+          "VERB_CONJUGATION": 0.058648203541347046
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:a6f78b5800495576210514538f76e4d436d41fa77c4cd30ca233cb7dc47d342e",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:t013.6",
+        "leakage_group_id": "sha256:b38fd5ec35b8c1d470495b04ee6ba2ded7ae302260d0fc7f2938e692956c04c2",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Tutkijoiden tavoitteena on tunnistaa ne neurologisia mekanismit, jotka ovat ekstaasiin liitettyjen myönteisten vaikutusten taustalla.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.6878214268737373,
+        "probabilities": {
+          "AGREEMENT": 0.6878214268737373,
+          "CASE_ERROR": 0.2453260110498649,
+          "VERB_CONJUGATION": 0.0668525620763978
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:87ff1e970f3ded656570df9ca834f3598adc216811b80a27a96641ac02dd61a3",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:fD02.13",
+        "leakage_group_id": "sha256:1187ac1f4a731c2261d3b2990164c66af6181312a291d858afe7988bf14e5bac",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Miekkaa hän ei juurikaan osannut käyttää, hän oli hankkinut sen vain koska muutkin rikas miehet kantoivat miekkaa vyöllään.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "VERB_CONJUGATION",
+        "confidence": 0.6625199531940598,
+        "probabilities": {
+          "AGREEMENT": 0.21789824194808852,
+          "CASE_ERROR": 0.1195818048578518,
+          "VERB_CONJUGATION": 0.6625199531940598
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:19721dabfcfd5410efd14a8de9375c729421dd1fee5bce3a4e58a90d4386c1f3",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:fE01.9",
+        "leakage_group_id": "sha256:8bb1eed3b7a04249e6d55f35b325ac55cf4ed477cf3da39307ceae7f9503946d",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Uskoin, että kun leppäkerttu laskeutui kädelle, olisi hän minun ystäväni ja se merkitsisi hyvä onnea minulle.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "VERB_CONJUGATION",
+        "confidence": 0.6306207573418344,
+        "probabilities": {
+          "AGREEMENT": 0.198478830577953,
+          "CASE_ERROR": 0.17090041208021245,
+          "VERB_CONJUGATION": 0.6306207573418344
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:474569ba265cb9d0653aafbd7e8671eeea5d2092a715e6bd2f0d269e206a28b2",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:t041.9",
+        "leakage_group_id": "sha256:3000ce7c68b4eb31cbc7ca64b0b03077f1700bc0ac55cf7f68d5cdb42c8c0fe4",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Suomessa ei murehdita myöskään yhteystietojen päätymistä väärien käsiin, komission tutkimuksesta selviää.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.6220279362659638,
+        "probabilities": {
+          "AGREEMENT": 0.6220279362659638,
+          "CASE_ERROR": 0.31283022166263724,
+          "VERB_CONJUGATION": 0.06514184207139904
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:73a1c1cdd2f5afdc04ba1f772276fd049df4d7294eea1a0fab938c3cfc672f89",
+        "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:deow1-16512",
+        "leakage_group_id": "sha256:20fe493a2aabef54cbeeead01375403719dab6d1de616ed707208e6ba6e34db2",
+        "source_dataset": "UD_Finnish-FTB",
+        "incorrect_sentence": "Kaunokirjallisuutta , erilaisia tietoa , viihdettä ?",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.6136192568474388,
+        "probabilities": {
+          "AGREEMENT": 0.29786360126691547,
+          "CASE_ERROR": 0.6136192568474388,
+          "VERB_CONJUGATION": 0.08851714188564566
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:3a60a09bf2dc596ac0d7f526ba4240411c092692616fd1f53bba449ea289a500",
+        "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:mps7c-17016",
+        "leakage_group_id": "sha256:fa6115a86cd3e3c8eb29f1e88a240d229c0011d37bd966bf15d43eb43693d814",
+        "source_dataset": "UD_Finnish-FTB",
+        "incorrect_sentence": "No se siitä työkalusta , kyllähän Aamulehdessä koneita riittää , ajattelin ja lähdin kävelemään Hämeenkatua kohti uusi työmaata .",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "VERB_CONJUGATION",
+        "confidence": 0.6110950585966061,
+        "probabilities": {
+          "AGREEMENT": 0.19865701735980182,
+          "CASE_ERROR": 0.19024792404359214,
+          "VERB_CONJUGATION": 0.6110950585966061
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:eceb63a8b6f58c945d19d8bd01572fcd40c271b7b9a498d6d1b201c3b5abf167",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:h1020.25",
+        "leakage_group_id": "sha256:e0d47c46e0210be28e86ebfbeafe64f5008620c32220c51c2ec0661cffc267f4",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Kuka itseään kunnioittava kirjailija enää kehtaa kirjoittaa teattereille uutta suomalaisia näytelmää.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.604880004631472,
+        "probabilities": {
+          "AGREEMENT": 0.26041814214943626,
+          "CASE_ERROR": 0.604880004631472,
+          "VERB_CONJUGATION": 0.13470185321909176
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:e1f50cb7fa4c07ac87d5f689cbbce285dc137d5e696ee97de40a14d882eab7d0",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:e1047.13",
+        "leakage_group_id": "sha256:047ec2312e97bce48ba95fdb3caeb330e01fecbd906c73df0f36adf0ac069aad",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Haluaisin huomauttaa, että 70 kongressin jäsentä lähetti kirjeen Yhdysvaltojen Bill Clintonille ja pyysi tätä poistamaan vientikiellon ja erottamaan taloudellisia pakotteet Irakiin nykyisin sovellettavista sotilaallisista pakotteista.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.5990407168565448,
+        "probabilities": {
+          "AGREEMENT": 0.5990407168565448,
+          "CASE_ERROR": 0.3278150020386306,
+          "VERB_CONJUGATION": 0.07314428110482461
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:427b8f9b618ec5b0d5289b41f38794159f83ed75ec7586da9ebbd57fb0c5d8cb",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-test.conllu:h1075.4",
+        "leakage_group_id": "sha256:2f96865dd236c3ad6e079234fc1090098f730d849c39191368c431c0188fed22",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Nilkka nyrjähtelee helposti uudestaan, on liikkuessa epävakaa eikä salli juoksemista ilman ulkoisia tukea.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5972349677137069,
+        "probabilities": {
+          "AGREEMENT": 0.3106523097822614,
+          "CASE_ERROR": 0.5972349677137069,
+          "VERB_CONJUGATION": 0.09211272250403171
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:28e10aadd9185c6b123ee11c8fe4ffa6dbe4188ca8b01d354409aa203655bdc1",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-test.conllu:f603.12",
+        "leakage_group_id": "sha256:df227ad2d5642cd4de0779875b643de8efd807274db961257a64abfb7e63caba",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Idea niissä kaikissa oli kuitenkin se, että ihmiset ympärilläni tietävät haluavansa kivaa sisätyöhön, ambulanssikuskeiksi, kitaranrakentajiksi, arkeologeiksi, eläinlääkäreiksi, työttömiksi pummeiksi.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.5859375725167734,
+        "probabilities": {
+          "AGREEMENT": 0.5859375725167734,
+          "CASE_ERROR": 0.1855933326272697,
+          "VERB_CONJUGATION": 0.22846909485595684
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:30b547e82247a42b8ccf9e3cce610f8400ac7f4e038db7957278081c6b18890e",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:e1010.14",
+        "leakage_group_id": "sha256:37b5e7f5c8d845281ff89c6c0e6bcd7c758c63be1652c78c5207998f7374c1b9",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Toiset haluaisivat kovasti, mutta eivät mitä erilaisimmista syistä voi, ja meidän on todennäköisesti hyväksyttävä monenlaiset tuloksia.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.5826393396794823,
+        "probabilities": {
+          "AGREEMENT": 0.5826393396794823,
+          "CASE_ERROR": 0.28464108822129425,
+          "VERB_CONJUGATION": 0.13271957209922353
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:f29ac1730da1595aaab40b14ac81e50e1e1567029fe19dbb25c142b602f79822",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:w018.11",
+        "leakage_group_id": "sha256:be75b5fbd7b9be6ebfee10a777aadb93d14d3d2a3b34df861aab561687fcf364",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Hyvät esimerkki kuningasgambiittimaisesta pelaamisesta on yksi kuuluisimmista pelatuista shakkipeleistä, nk. kuolematon peli, joka pelattiin Adolf Anderssenin ja Kieseritzkyn välillä Lontoossa 1851.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5792952189007646,
+        "probabilities": {
+          "AGREEMENT": 0.32952098386162026,
+          "CASE_ERROR": 0.5792952189007646,
+          "VERB_CONJUGATION": 0.09118379723761498
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:db62bd39ff36d11362a27e4fd793c968d66e4f44ea4c77d4d6dbb818da94d71d",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:t024.15",
+        "leakage_group_id": "sha256:49d1c3b866cca77c39ea7570e35422110a32fe6df0f8c396bd659a1188947436",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Toimittajien sananvapausjärjestö Toimittajat ilman rajoja on listannut Gaddafin vapaa median saalistajaksi.",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.5700476480130597,
+        "probabilities": {
+          "AGREEMENT": 0.5700476480130597,
+          "CASE_ERROR": 0.32618334656949355,
+          "VERB_CONJUGATION": 0.1037690054174468
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:903b405882dc28f1623a13e0d57baac1709ee74b25d23032ed641cb949c4993a",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-test.conllu:b401.56",
+        "leakage_group_id": "sha256:4ae02b437b4a689939c6cb99e93e803ba4fab74bd3011c6e272e04a4fa869fbb",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Kolmas tärkeät asia on näyttää Rakkaus.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5670508915413601,
+        "probabilities": {
+          "AGREEMENT": 0.3208781980608029,
+          "CASE_ERROR": 0.5670508915413601,
+          "VERB_CONJUGATION": 0.11207091039783694
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:439c0959bdd3bbba9d421d85d94fe4c9ec554adc305455a559d8b2e4d74cd8e8",
+        "source_id": "UD_Finnish-FTB:fi_ftb-ud-train.conllu:c1xs8-15487",
+        "leakage_group_id": "sha256:05b7c35056277e5cb93a825bc356f415ef2ebf1d164fb64d80ddbbeb233a928d",
+        "source_dataset": "UD_Finnish-FTB",
+        "incorrect_sentence": "Jos heitä saapuu vain pienet ryhminä , voinemme sijoittaa ihmiset suoraan kuntiin .",
+        "true_label": "CASE_ERROR",
+        "predicted_label": "AGREEMENT",
+        "confidence": 0.5650451339385529,
+        "probabilities": {
+          "AGREEMENT": 0.5650451339385529,
+          "CASE_ERROR": 0.24895957737026383,
+          "VERB_CONJUGATION": 0.18599528869118329
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:d451db26f2589232454738b4f7712c632e60eb58012cc52278aa78ee19908b7e",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-train.conllu:e1069.6",
+        "leakage_group_id": "sha256:8d71e0b384f0fa6d896f5ecffda335b75c36829b0f67bd481d7cf29ae782bdde",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Tämä on valtavat edistysaskel, johon olen erittäin tyytyväinen.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.563325671372008,
+        "probabilities": {
+          "AGREEMENT": 0.2893844761470877,
+          "CASE_ERROR": 0.563325671372008,
+          "VERB_CONJUGATION": 0.14728985248090445
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:3983d3985d49a8f6e897297923b86f7e7ce556bef423c04ba43aef173370400e",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-dev.conllu:e1046.25",
+        "leakage_group_id": "sha256:a97956860dfaf6b4da7357b7cc26b026f6ea7db4e8f1d1bbe7fd00b5fe15066a",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "Toivon omalta osaltani, että huomisessa äänestyksessä parlamentin laajat tuki antaa mahdollisuuden toteuttaa tavoitteellista alueellista koheesiopolitiikkaa.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5623012471997291,
+        "probabilities": {
+          "AGREEMENT": 0.3829375516980539,
+          "CASE_ERROR": 0.5623012471997291,
+          "VERB_CONJUGATION": 0.05476120110221699
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:58c44c8ff69c228ce2fae3e41a16caced7186dfabf5c15b26fb1b1aa87d89c5a",
+        "source_id": "UD_Finnish-FTB:fi_ftb-ud-dev.conllu:s06gi-10370",
+        "leakage_group_id": "sha256:b1763f5f78333cca6ab81d8353293cc420605dc414615e209d32219c6ac92b03",
+        "source_dataset": "UD_Finnish-FTB",
+        "incorrect_sentence": "Olemme saavuttaneet hyvää kierrosaikoja Fioranossa , mutta se on liian hidas rata , jotta voisimme yleistää sen koskemaan muita ratoja ja olosuhteita .",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5610967927734959,
+        "probabilities": {
+          "AGREEMENT": 0.3381034424595707,
+          "CASE_ERROR": 0.5610967927734959,
+          "VERB_CONJUGATION": 0.1007997647669333
+        },
+        "correct": false
+      },
+      {
+        "synthetic_id": "sha256:ae1cc6567becd305a9f77dc38686222212ae5a81cccc34b686b40681a7356f8f",
+        "source_id": "UD_Finnish-TDT:fi_tdt-ud-test.conllu:j001.21",
+        "leakage_group_id": "sha256:d6e467d91003c854c902f0a51ec9d07fd948c904e6c4cef2ae5dd4e94131b28a",
+        "source_dataset": "UD_Finnish-TDT",
+        "incorrect_sentence": "(12) Kaupallisilla kuljetuksella ei tarkoiteta yksinomaan kuljetuksia, joihin liittyy rahan, tavaroiden tai palvelujen välitöntä vaihdantaa.",
+        "true_label": "AGREEMENT",
+        "predicted_label": "CASE_ERROR",
+        "confidence": 0.5590493731664314,
+        "probabilities": {
+          "AGREEMENT": 0.3767870919122294,
+          "CASE_ERROR": 0.5590493731664314,
+          "VERB_CONJUGATION": 0.06416353492133912
+        },
+        "correct": false
+      }
+    ]
+  },
+  "shortcut_checks": {
+    "training_global_majority_accuracy": 0.3336506425511661,
+    "validation_source_only_majority": {
+      "accuracy": 0.44,
+      "source_to_label": {
+        "UD_Finnish-TDT": "AGREEMENT",
+        "UD_Finnish-FTB": "VERB_CONJUGATION"
+      }
+    },
+    "test_source_only_majority": {
+      "accuracy": 0.44097995545657015,
+      "source_to_label": {
+        "UD_Finnish-TDT": "AGREEMENT",
+        "UD_Finnish-FTB": "VERB_CONJUGATION"
+      }
+    },
+    "validation_metrics_by_source": {
+      "UD_Finnish-FTB": {
+        "accuracy": 0.7401960784313726,
+        "macro_precision": 0.6816992508085092,
+        "macro_recall": 0.6729055258467023,
+        "macro_f1": 0.6742329337578106,
+        "log_loss": 0.6426005851888114,
+        "per_class": {
+          "AGREEMENT": {
+            "precision": 0.5283018867924528,
+            "recall": 0.5490196078431373,
+            "f1": 0.5384615384615384,
+            "support": 51
+          },
+          "CASE_ERROR": {
+            "precision": 0.627906976744186,
+            "recall": 0.5,
+            "f1": 0.5567010309278351,
+            "support": 54
+          },
+          "VERB_CONJUGATION": {
+            "precision": 0.8888888888888888,
+            "recall": 0.9696969696969697,
+            "f1": 0.927536231884058,
+            "support": 99
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "AGREEMENT",
+            "CASE_ERROR",
+            "VERB_CONJUGATION"
+          ],
+          "values": [
+            [
+              28,
+              15,
+              8
+            ],
+            [
+              23,
+              27,
+              4
+            ],
+            [
+              2,
+              1,
+              96
+            ]
+          ]
+        }
+      },
+      "UD_Finnish-TDT": {
+        "accuracy": 0.6504065040650406,
+        "macro_precision": 0.6867102396514161,
+        "macro_recall": 0.6867944147355912,
+        "macro_f1": 0.6863799283154122,
+        "log_loss": 0.7576458757486113,
+        "per_class": {
+          "AGREEMENT": {
+            "precision": 0.6,
+            "recall": 0.6363636363636364,
+            "f1": 0.6176470588235294,
+            "support": 99
+          },
+          "CASE_ERROR": {
+            "precision": 0.5777777777777777,
+            "recall": 0.5416666666666666,
+            "f1": 0.5591397849462365,
+            "support": 96
+          },
+          "VERB_CONJUGATION": {
+            "precision": 0.8823529411764706,
+            "recall": 0.8823529411764706,
+            "f1": 0.8823529411764706,
+            "support": 51
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "AGREEMENT",
+            "CASE_ERROR",
+            "VERB_CONJUGATION"
+          ],
+          "values": [
+            [
+              63,
+              33,
+              3
+            ],
+            [
+              41,
+              52,
+              3
+            ],
+            [
+              1,
+              5,
+              45
+            ]
+          ]
+        }
+      }
+    },
+    "test_metrics_by_source": {
+      "UD_Finnish-FTB": {
+        "accuracy": 0.7794117647058824,
+        "macro_precision": 0.7300308299420397,
+        "macro_recall": 0.7304377104377103,
+        "macro_f1": 0.7297579673417464,
+        "log_loss": 0.6262947019277615,
+        "per_class": {
+          "AGREEMENT": {
+            "precision": 0.6226415094339622,
+            "recall": 0.66,
+            "f1": 0.6407766990291263,
+            "support": 50
+          },
+          "CASE_ERROR": {
+            "precision": 0.6274509803921569,
+            "recall": 0.5818181818181818,
+            "f1": 0.6037735849056604,
+            "support": 55
+          },
+          "VERB_CONJUGATION": {
+            "precision": 0.94,
+            "recall": 0.9494949494949495,
+            "f1": 0.9447236180904522,
+            "support": 99
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "AGREEMENT",
+            "CASE_ERROR",
+            "VERB_CONJUGATION"
+          ],
+          "values": [
+            [
+              33,
+              15,
+              2
+            ],
+            [
+              19,
+              32,
+              4
+            ],
+            [
+              1,
+              4,
+              94
+            ]
+          ]
+        }
+      },
+      "UD_Finnish-TDT": {
+        "accuracy": 0.6530612244897959,
+        "macro_precision": 0.6888445012861228,
+        "macro_recall": 0.6957417310358487,
+        "macro_f1": 0.6916508303726349,
+        "log_loss": 0.7678087711651518,
+        "per_class": {
+          "AGREEMENT": {
+            "precision": 0.6153846153846154,
+            "recall": 0.5656565656565656,
+            "f1": 0.5894736842105263,
+            "support": 99
+          },
+          "CASE_ERROR": {
+            "precision": 0.5643564356435643,
+            "recall": 0.6,
+            "f1": 0.5816326530612245,
+            "support": 95
+          },
+          "VERB_CONJUGATION": {
+            "precision": 0.8867924528301887,
+            "recall": 0.9215686274509803,
+            "f1": 0.9038461538461539,
+            "support": 51
+          }
+        },
+        "confusion_matrix": {
+          "labels": [
+            "AGREEMENT",
+            "CASE_ERROR",
+            "VERB_CONJUGATION"
+          ],
+          "values": [
+            [
+              56,
+              41,
+              2
+            ],
+            [
+              34,
+              57,
+              4
+            ],
+            [
+              1,
+              3,
+              47
+            ]
+          ]
+        }
+      }
+    },
+    "validation_metrics_by_train_length_quartile": {
+      "train_character_length_quartile_thresholds": [
+        53.0,
+        87.0,
+        125.0
+      ],
+      "evaluation": {
+        "Q1_shortest": {
+          "records": 115,
+          "class_distribution": {
+            "AGREEMENT": 19,
+            "CASE_ERROR": 18,
+            "VERB_CONJUGATION": 78
+          },
+          "accuracy": 0.8695652173913043,
+          "macro_f1": 0.7456507752686097
+        },
+        "Q2": {
+          "records": 112,
+          "class_distribution": {
+            "AGREEMENT": 40,
+            "CASE_ERROR": 33,
+            "VERB_CONJUGATION": 39
+          },
+          "accuracy": 0.6964285714285714,
+          "macro_f1": 0.6796612579745109
+        },
+        "Q3": {
+          "records": 105,
+          "class_distribution": {
+            "AGREEMENT": 45,
+            "CASE_ERROR": 42,
+            "VERB_CONJUGATION": 18
+          },
+          "accuracy": 0.6571428571428571,
+          "macro_f1": 0.6904931222951419
+        },
+        "Q4_longest": {
+          "records": 118,
+          "class_distribution": {
+            "AGREEMENT": 46,
+            "CASE_ERROR": 57,
+            "VERB_CONJUGATION": 15
+          },
+          "accuracy": 0.5423728813559322,
+          "macro_f1": 0.5547610316587215
+        }
+      }
+    },
+    "test_metrics_by_train_length_quartile": {
+      "train_character_length_quartile_thresholds": [
+        53.0,
+        87.0,
+        125.0
+      ],
+      "evaluation": {
+        "Q1_shortest": {
+          "records": 120,
+          "class_distribution": {
+            "AGREEMENT": 20,
+            "CASE_ERROR": 14,
+            "VERB_CONJUGATION": 86
+          },
+          "accuracy": 0.8833333333333333,
+          "macro_f1": 0.7351002318107581
+        },
+        "Q2": {
+          "records": 111,
+          "class_distribution": {
+            "AGREEMENT": 44,
+            "CASE_ERROR": 37,
+            "VERB_CONJUGATION": 30
+          },
+          "accuracy": 0.7297297297297297,
+          "macro_f1": 0.7408642224012892
+        },
+        "Q3": {
+          "records": 101,
+          "class_distribution": {
+            "AGREEMENT": 36,
+            "CASE_ERROR": 46,
+            "VERB_CONJUGATION": 19
+          },
+          "accuracy": 0.5841584158415841,
+          "macro_f1": 0.6118634054117925
+        },
+        "Q4_longest": {
+          "records": 117,
+          "class_distribution": {
+            "AGREEMENT": 49,
+            "CASE_ERROR": 53,
+            "VERB_CONJUGATION": 15
+          },
+          "accuracy": 0.6239316239316239,
+          "macro_f1": 0.6562119739825442
+        }
+      }
+    },
+    "train_test_macro_f1_gap": 0.223927333703556
+  },
+  "artifacts": {
+    "model": {
+      "path": "models/error_classifier_v1.joblib",
+      "sha256": "e80f682375c586d9e53d7e769099fbfddef2b8d708e6b68d208265081d5bdab8"
+    },
+    "test_predictions": {
+      "path": "data/evaluation/ml_test_predictions_v1.jsonl",
+      "sha256": "2c680d298e2b4ecb37a87ff98090aa6862917473ebd2ff06e4c00abbb23dbc5f"
+    }
+  },
+  "quality_checks": {
+    "phase4_input_hash_verified": true,
+    "group_overlap_zero": true,
+    "vectorizer_fit_on_training_only": true,
+    "all_approved_labels_present_in_each_split": true,
+    "classifier_converged": true,
+    "artifact_load_and_prediction_verified": true,
+    "test_evaluated_after_fixed_configuration": true
+  },
+  "limitations": [
+    "This model classifies three controlled synthetic error types; it is not a detector of arbitrary real-world Finnish grammar errors.",
+    "Character n-grams can learn generator-specific suffix and replacement artifacts rather than general grammar.",
+    "Synthetic examples may not match the distribution or ambiguity of naturally occurring learner language.",
+    "Reported log loss is post-fit classification log loss, not a neural-network training-loss curve."
+  ]
+}

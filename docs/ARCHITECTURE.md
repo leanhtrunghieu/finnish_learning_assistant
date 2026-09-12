@@ -791,6 +791,38 @@ The service layer should coordinate the application.
 
 ---
 
+# 24.1 Phase 5 ML Baseline Snapshot
+
+Phase 5 is isolated in `app/services/ml_training.py`. It reads the immutable
+Phase 4 JSONL and validates its SHA-256 against the generation manifest. A
+deterministic `StratifiedGroupKFold` assignment uses `leakage_group_id` as the
+indivisible group and `error_type|source_dataset` as the approximate
+stratification key. Twenty folds are aggregated as 14 training, 3 validation,
+and 3 test folds. Pairwise group intersections are required to be empty.
+
+The fitted artifact is one scikit-learn `Pipeline`:
+
+```text
+format-only feature normalization
+  -> character-within-word TF-IDF (3--5 grams)
+  -> multinomial Logistic Regression
+```
+
+Only the training split is passed to `Pipeline.fit`, so validation and test
+sentences cannot influence vocabulary or IDF values. Normalization applies NFC,
+collapses whitespace, and removes spaces before common punctuation only in the
+model's feature view; source and split JSONL records are unchanged. The complete
+pipeline is saved at `models/error_classifier_v1.joblib` and can therefore be
+loaded without separately fitted feature state.
+
+The test partition is evaluated once after the baseline configuration is fixed.
+Metadata records accuracy, macro precision/recall/F1, probability log loss,
+per-class results, confusion matrices, top-weighted features, source sensitivity,
+and representative predictions. These results characterize three synthetic
+labels and are not evidence of general Finnish grammar checking capability.
+
+---
+
 # 25. External API Isolation
 
 Do not call the LLM API directly from Streamlit UI code.

@@ -137,6 +137,31 @@ class distribution, duplicate checks, and a deterministic manual-review sample.
 Open `notebooks/03_error_generation.ipynb` and use **Run All** for the
 presentation-oriented audit and representative examples.
 
+## Run the Phase 5 ML baseline
+
+After producing the approved Phase 4 dataset, run:
+
+```powershell
+python -m app.services.ml_training --project-root .
+```
+
+The command verifies the Phase 4 input hash; creates deterministic, grouped
+train/validation/test JSONL files under `data/evaluation/`; fits a character
+3--5-gram TF-IDF plus Logistic Regression pipeline using training text only;
+and writes the complete fitted pipeline to `models/error_classifier_v1.joblib`.
+The split manifest and model metadata contain computed distributions, pairwise
+leakage checks, metrics, confusion matrices, hashes, and interpretation evidence.
+
+All records sharing `leakage_group_id` remain in one split. The fixed seed is
+42 and the approximate split is 70/15/15; group isolation takes precedence over
+exact percentages. The target is the three-class synthetic `error_type`, given
+`incorrect_sentence`. This educational baseline does not detect arbitrary
+real-world Finnish grammar errors.
+
+Open `notebooks/04_ml_baseline.ipynb` and use **Run All** to reproduce the
+experiment and view per-class metrics, the final test confusion matrix, learned
+character features, shortcut checks, and representative misclassifications.
+
 ## Run the application
 
 ```powershell
