@@ -261,6 +261,41 @@ See `data/vocabulary/ATTRIBUTION.md` and `docs/DATA_SOURCES.md` for source
 licenses and limitations. Phase 8 does not add LLM enrichment, vocabulary
 history, or the final Streamlit vocabulary page.
 
+## Run the Phase 9 exercise service
+
+Phase 9 adds a small, service-level personalized exercise generator. It reads
+the real Phase 7 `LearnerProfile`, selects the highest-count supported weakness
+with deterministic tie-breaking, and asks the shared Phase 6 LLM transport for
+one validated `MULTIPLE_CHOICE` exercise at the fixed `BASIC` difficulty. The
+MVP supports `CASE_ERROR`, `VERB_CONJUGATION`, `NOUN_INFLECTION`, `AGREEMENT`,
+and `SPELLING`; `WORD_ORDER` and `OTHER` are intentionally deferred because an
+LLM-generated single correct answer is not reliable enough for deterministic
+checking. A learner with no supported history must choose an explicit topic;
+the service does not invent a weakness.
+
+The service-level API is:
+
+```python
+from app.services.exercise_service import ExerciseService
+
+service = ExerciseService(profile_service, llm_client)
+exercise = service.generate_for_learner("demo_user")
+result = service.check_answer(exercise, "B")
+```
+
+The provider returns only exercise content. The application computes a stable
+local exercise ID, validates four unique options and exactly one correct
+answer, and checks answers without another LLM call. Provider failures and
+malformed exercises become controlled service errors. Phase 9 does not persist
+exercise attempts, add vocabulary coupling, or build the final Streamlit
+Practice page; those remain later integration work.
+
+Run the focused tests with:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q tests/test_exercise_service.py
+```
+
 ## Run the application
 
 ```powershell

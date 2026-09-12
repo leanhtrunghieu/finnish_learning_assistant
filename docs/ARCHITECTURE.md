@@ -944,6 +944,53 @@ boundaries keep lookup deterministic and leave later UI work independent.
 
 ---
 
+## 24.5 Phase 9 Personalized Exercise Service
+
+Phase 9 completes the service-level learning loop without adding a Practice
+page or a second provider client:
+
+```text
+ProfileService
+      ↓
+deterministic supported weakness selection
+      ↓
+ExerciseService
+      ↓
+shared LLMClient / LLMService
+      ↓
+strict exercise validation
+      ↓
+Exercise + deterministic answer checking
+```
+
+`ExerciseService` consumes the actual Phase 7 `LearnerProfile`; it never asks
+the LLM to infer a learner's weakness. Weaknesses are ranked by count
+descending and canonical error-type name ascending. The first supported
+category is selected, or the caller may explicitly request a supported topic.
+With no supported history, the service returns a controlled target-unavailable
+error rather than fabricating a default weakness. `WORD_ORDER` and `OTHER` are
+deferred from automatic generation because Finnish word order and open-ended
+categories can admit multiple valid answers.
+
+The MVP uses one exercise type, `MULTIPLE_CHOICE`, and one difficulty,
+`BASIC`. The provider receives only the target category, type, difficulty, and
+the versioned prompt; learner identity and full history are not sent. The
+provider response contains no provider-controlled ID or metadata. The service
+computes a stable SHA-256 exercise ID, requires four unique options with the
+correct answer appearing exactly once, and returns a typed `Exercise` model.
+Answer checking compares an option label, index, or option text
+deterministically after NFC normalization and boundary trimming; it never calls
+the LLM to grade an answer. One bounded repair request is allowed for malformed
+exercise JSON, while authentication, timeout, configuration, and provider
+failures become safe `ExerciseServiceError` messages.
+
+Phase 9 intentionally does not persist exercise attempts, couple generation to
+the Phase 8 vocabulary index, add recommendation ML, or build the final
+Streamlit Practice UI. Generated exercises remain LLM-produced teaching
+material and require later manual linguistic evaluation.
+
+---
+
 # 25. External API Isolation
 
 Do not call the LLM API directly from Streamlit UI code.
