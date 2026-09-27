@@ -7,6 +7,7 @@ import hashlib
 import json
 import platform
 import re
+import sys
 import unicodedata
 import warnings
 from collections import Counter, defaultdict
@@ -382,12 +383,33 @@ def _length_sensitivity(
 
 
 def save_pipeline(pipeline: Pipeline, path: Path) -> None:
+    # ``python -m app.services.ml_training`` executes this file as ``__main__``.
+    # Give the custom transformer a stable import path before new artifacts are
+    # serialized so they can be loaded from another entry point.
+    stable_module = "app.services.ml_training"
+    if FinnishTextNormalizer.__module__ == "__main__":
+        sys.modules.setdefault(stable_module, sys.modules["__main__"])
+        FinnishTextNormalizer.__module__ = stable_module
     path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(pipeline, path)
 
 
 def load_pipeline(path: Path) -> Pipeline:
-    pipeline = joblib.load(path)
+    # Phase 5 v1 was created through ``python -m`` and therefore contains the
+    # legacy pickle reference ``__main__.FinnishTextNormalizer``.  Expose only
+    # this known project class while loading that frozen artifact; restore the
+    # caller's module immediately afterwards.  The model bytes remain unchanged.
+    main_module = sys.modules["__main__"]
+    marker = object()
+    previous = getattr(main_module, "FinnishTextNormalizer", marker)
+    setattr(main_module, "FinnishTextNormalizer", FinnishTextNormalizer)
+    try:
+        pipeline = joblib.load(path)
+    finally:
+        if previous is marker:
+            delattr(main_module, "FinnishTextNormalizer")
+        else:
+            setattr(main_module, "FinnishTextNormalizer", previous)
     if not isinstance(pipeline, Pipeline):
         raise MLTrainingError(f"{path} does not contain a scikit-learn Pipeline")
     return pipeline

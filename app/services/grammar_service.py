@@ -22,11 +22,16 @@ from app.services.llm_service import (
     LLMResponseError,
     LLMServiceError,
     LLMTimeoutError,
+    LLMFailureDiagnostic,
 )
 
 
 class GrammarServiceError(RuntimeError):
     """Expected grammar-service failure safe for a future UI to display."""
+
+    def __init__(self, message: str, *, diagnostic: LLMFailureDiagnostic | None = None) -> None:
+        super().__init__(message)
+        self.diagnostic = diagnostic
 
 
 DEFAULT_PROMPT_PATH = Path(__file__).resolve().parents[1] / "prompts" / "grammar_checker_prompt.txt"
@@ -77,7 +82,7 @@ class GrammarService:
             )
         except (GrammarValidationError, LLMResponseError) as first_error:
             if not self.allow_repair_retry:
-                raise GrammarServiceError(self._safe_message(first_error)) from first_error
+                raise self._service_error(first_error) from first_error
             repair_prompt = (
                 prompt
                 + "\nYour previous response was invalid. Return one JSON object matching the schema exactly. "
@@ -95,9 +100,9 @@ class GrammarService:
                     expected_language_mode=language_mode,
                 )
             except (GrammarValidationError, LLMServiceError) as second_error:
-                raise GrammarServiceError(self._safe_message(second_error)) from second_error
+                raise self._service_error(second_error) from second_error
         except LLMServiceError as first_error:
-            raise GrammarServiceError(self._safe_message(first_error)) from first_error
+            raise self._service_error(first_error) from first_error
 
     def _load_prompt(self, language_mode: LanguageMode) -> str:
         template = self.prompt_path.read_text(encoding="utf-8")
@@ -125,6 +130,22 @@ class GrammarService:
         if isinstance(error, LLMTimeoutError):
             return "The grammar provider timed out. Please try again later."
         return "The grammar provider is temporarily unavailable or returned an invalid response."
+
+    @classmethod
+    def _service_error(cls, error: Exception) -> GrammarServiceError:
+        diagnostic = getattr(error, "diagnostic", None)
+        if isinstance(error, GrammarValidationError):
+            diagnostic = LLMFailureDiagnostic(
+                stage="schema",
+                exception_class=type(error).__name__,
+                provider_message=cls._sanitize_validation_message(str(error)),
+                parse_category="grammar_result_schema",
+            )
+        return GrammarServiceError(cls._safe_message(error), diagnostic=diagnostic)
+
+    @staticmethod
+    def _sanitize_validation_message(message: str) -> str:
+        return message.replace("\r", " ").replace("\n", " ")[:500]
 
 
 def check_sentence(sentence: str, *, language_mode: LanguageMode = LanguageMode.STANDARD) -> GrammarResult:

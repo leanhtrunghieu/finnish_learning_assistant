@@ -1,0 +1,197 @@
+{"kind":"deck","id":"pr/pigb64","name":"Deck"}
+{"kind":"layout","layoutId":"49fdfe42-6e53-4fbe-8a37-a7162faa5f3e","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"74558117-e19c-4c16-a9dd-e9e230223352","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/rdjq5a","slide":1,"title":"FINNISH LEARNING ASSISTANT","textShapes":5}
+{"kind":"shape","id":"sh/hg3ytsre","slide":1,"bbox":[0,0,1280,720]}
+{"kind":"shape","id":"sh/udszidsn","slide":1,"bbox":[760,0,520,720]}
+{"kind":"textbox","id":"sh/velgri98","slide":1,"text":"FINNISH LEARNING ASSISTANT","textPreview":"FINNISH LEARNING ASSISTANT","textChars":26,"textLines":1,"bbox":[80,184,640,120]}
+{"kind":"textbox","id":"sh/4juhonqp","slide":1,"text":"Grammar feedback that becomes targeted practice","textPreview":"Grammar feedback that becomes targeted practice","textChars":47,"textLines":1,"bbox":[80,310,620,74]}
+{"kind":"textbox","id":"sh/5k3yxsra","slide":1,"text":"Final project presentation","textPreview":"Final project presentation","textChars":26,"textLines":1,"bbox":[82,510,420,34]}
+{"kind":"textbox","id":"sh/ihczmxsj","slide":1,"text":"AI-assisted Finnish learning loop","textPreview":"AI-assisted Finnish learning loop","textChars":33,"textLines":1,"bbox":[816,250,380,54]}
+{"kind":"textbox","id":"sh/jilgv294","slide":1,"text":"WRITE\nCHECK\nUNDERSTAND\nPRACTICE","textPreview":"WRITE | CHECK | UNDERSTAND | PRACTICE","textChars":31,"textLines":4,"bbox":[850,330,310,210]}
+{"kind":"notes","id":"nt/rdjq5a","slide":1,"text":"Introduce the project as a local educational MVP that connects grammar checking, history, weakness detection, vocabulary, and targeted practice."}
+{"kind":"slide","id":"sl/r8d0f0","slide":2,"title":"PROBLEM","textShapes":11}
+{"kind":"textbox","id":"sh/ux8ji9oz","slide":2,"text":"PROBLEM","textPreview":"PROBLEM","textChars":7,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/h0z2to7q","slide":2,"text":"Finnish learners need more than a correction","textPreview":"Finnish learners need more than a correction","textChars":44,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/gzq1kj65","slide":2,"text":"The learning problem is recurring structure, not a single typo","textPreview":"The learning problem is recurring structure, not a single typo","textChars":62,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/3mhkvepw","slide":2,"text":"15","textPreview":"15","textChars":2,"textLines":1,"bbox":[82,184,190,110]}
+{"kind":"textbox","id":"sh/i18jm9ob","slide":2,"text":"productive cases","textPreview":"productive cases","textChars":16,"textLines":1,"bbox":[84,288,220,38]}
+{"kind":"textbox","id":"sh/5oj2xo7m","slide":2,"text":"Rich inflection makes one surface error hard to diagnose without context.","textPreview":"Rich inflection makes one surface error hard to diagnose without context.","textChars":73,"textLines":1,"bbox":[84,336,330,110]}
+{"kind":"shape","id":"sh/4na1oj6h","slide":2,"bbox":[472,170,676,400]}
+{"kind":"textbox","id":"sh/rq1kzyps","slide":2,"text":"A learner may receive the right form and still repeat the same mistake","textPreview":"A learner may receive the right form and still repeat the same mistake","textChars":70,"textLines":1,"bbox":[512,204,588,72]}
+{"kind":"textbox","id":"sh/qpsjqto7","slide":2,"text":"Immediate feedback should identify the grammar category.\nA useful explanation should connect the form to a Finnish rule.\nStored mistakes should guide the next practice task.","textPreview":"Immediate feedback should identify the grammar category. | A useful explanation should connect the form to a Finnish rule. | Stored mista...","textChars":173,"textLines":3,"bbox":[512,308,574,190]}
+{"kind":"textbox","id":"sh/gfahk3mp","slide":2,"text":"Project goal: turn correction into a repeatable learning loop.","textPreview":"Project goal: turn correction into a repeatable learning loop.","textChars":62,"textLines":1,"bbox":[512,512,580,38]}
+{"kind":"shape","id":"sh/1gjyt8na","slide":2,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/udszit4z","slide":2,"text":"Source: docs/PROJECT_SPEC.md","textPreview":"Source: docs/PROJECT_SPEC.md","textChars":28,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/fe1gry5k","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"notes","id":"nt/r8d0f0","slide":2,"text":"Source: docs/PROJECT_SPEC.md. The number of Finnish cases is general linguistic context, not an evaluated project metric."}
+{"kind":"slide","id":"sl/08tg3y","slide":3,"title":"SOLUTION","textShapes":12}
+{"kind":"textbox","id":"sh/h072d07a","slide":3,"text":"SOLUTION","textPreview":"SOLUTION","textChars":8,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/uxgjiloz","slide":3,"text":"The personalized learning loop","textPreview":"The personalized learning loop","textChars":30,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/vypkbqpk","slide":3,"text":"Each step is implemented as an explicit application action","textPreview":"Each step is implemented as an explicit application action","textChars":58,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/4ni1ov61","slide":3,"text":"WRITE","textPreview":"WRITE","textChars":5,"textLines":1,"bbox":[72,255,150,112]}
+{"kind":"textbox","id":"sh/5or2h0nm","slide":3,"text":"CHECK","textPreview":"CHECK","textChars":5,"textLines":1,"bbox":[262,255,150,112]}
+{"kind":"textbox","id":"sh/ilgjm5ov","slide":3,"text":"UNDERSTAND","textPreview":"UNDERSTAND","textChars":10,"textLines":1,"bbox":[452,255,150,112]}
+{"kind":"textbox","id":"sh/3m9kfapg","slide":3,"text":"REMEMBER","textPreview":"REMEMBER","textChars":8,"textLines":1,"bbox":[642,255,150,112]}
+{"kind":"textbox","id":"sh/srilsf6d","slide":3,"text":"ANALYZE","textPreview":"ANALYZE","textChars":7,"textLines":1,"bbox":[832,255,150,112]}
+{"kind":"textbox","id":"sh/dsr2lkni","slide":3,"text":"PRACTICE","textPreview":"PRACTICE","textChars":8,"textLines":1,"bbox":[1022,255,150,112]}
+{"kind":"shape","id":"sh/d43a9gvm","slide":3,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/c3u90beh","slide":3,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/b2ls76dw","slide":3,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/q1cry1wb","slide":3,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/l8nadgvy","slide":3,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/07e94bed","slide":3,"text":"Grammar results become learner history. Learner history becomes a ranked weakness. The weakness selects a practice target.","textPreview":"Grammar results become learner history. Learner history becomes a ranked weakness. The weakness selects a practice target.","textChars":122,"textLines":1,"bbox":[150,430,980,88]}
+{"kind":"shape","id":"sh/z65sb6ds","slide":3,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/y5wr2lw7","slide":3,"text":"Source: docs/PROJECT_SPEC.md and app/ui","textPreview":"Source: docs/PROJECT_SPEC.md and app/ui","textChars":39,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/1cjq1wvu","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"notes","id":"nt/08tg3y","slide":3,"text":"The loop is the product's central differentiator. Demonstrate it in the same order during the live walkthrough."}
+{"kind":"slide","id":"sl/ulcsq1","slide":4,"title":"ARCHITECTURE","textShapes":15}
+{"kind":"textbox","id":"sh/98vq18nq","slide":4,"text":"ARCHITECTURE","textPreview":"ARCHITECTURE","textChars":12,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/m5k76tof","slide":4,"text":"Implemented system architecture","textPreview":"Implemented system architecture","textChars":31,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/n6t8zy50","slide":4,"text":"Production grammar and exercise flows share one provider-isolated LLM transport","textPreview":"Production grammar and exercise flows share one provider-isolated LLM transport","textChars":79,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/032p4369","slide":4,"text":"STREAMLIT UI\n6 pages","textPreview":"STREAMLIT UI | 6 pages","textChars":20,"textLines":2,"bbox":[70,220,185,116]}
+{"kind":"textbox","id":"sh/14bqx8nu","slide":4,"text":"Grammar Service","textPreview":"Grammar Service","textChars":15,"textLines":1,"bbox":[340,160,190,78]}
+{"kind":"textbox","id":"sh/e1k72to3","slide":4,"text":"Vocabulary Service","textPreview":"Vocabulary Service","textChars":18,"textLines":1,"bbox":[340,270,190,78]}
+{"kind":"textbox","id":"sh/z2t8vy5o","slide":4,"text":"Database + Profile","textPreview":"Database + Profile","textChars":18,"textLines":1,"bbox":[340,380,190,78]}
+{"kind":"shape","id":"sh/cfip0j6d","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/dgbqtoni","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/5c7u5w7a","slide":4,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/4bydwrqp","slide":4,"text":"LLM Service\nChat Completions","textPreview":"LLM Service | Chat Completions","textChars":28,"textLines":2,"bbox":[650,160,200,100]}
+{"kind":"textbox","id":"sh/3a5c36p4","slide":4,"text":"Lexical index\nUD + FinnWordNet","textPreview":"Lexical index | UD + FinnWordNet","textChars":30,"textLines":2,"bbox":[650,290,200,100]}
+{"kind":"textbox","id":"sh/i9wvu18j","slide":4,"text":"Exercise Service\nvalidated output","textPreview":"Exercise Service | validated output","textChars":33,"textLines":2,"bbox":[650,420,200,100]}
+{"kind":"shape","id":"sh/h8nu1w7y","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/g7edsrqt","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/v65czm98","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/u5wvqh8n","slide":4,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/tknuxcr2","slide":4,"bbox":[942,194,250,256]}
+{"kind":"textbox","id":"sh/8judo7qh","slide":4,"text":"Experimental ML baseline","textPreview":"Experimental ML baseline","textChars":24,"textLines":1,"bbox":[970,222,196,56]}
+{"kind":"textbox","id":"sh/knyd4ryd","slide":4,"text":"TF-IDF + Logistic Regression","textPreview":"TF-IDF + Logistic Regression","textChars":28,"textLines":1,"bbox":[970,296,196,44]}
+{"kind":"textbox","id":"sh/lo7udczy","slide":4,"text":"Evaluation component\nIt does not power the production grammar flow.","textPreview":"Evaluation component | It does not power the production grammar flow.","textChars":67,"textLines":2,"bbox":[970,358,196,76]}
+{"kind":"shape","id":"sh/ylgv2hg7","slide":4,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/zmpcbmhs","slide":4,"text":"Source: docs/ARCHITECTURE.md","textPreview":"Source: docs/ARCHITECTURE.md","textChars":28,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/czyd07yh","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"notes","id":"nt/ulcsq1","slide":4,"text":"Source: docs/ARCHITECTURE.md. Emphasize that the Phase 5 model is an experimental comparison artifact, not the production checker."}
+{"kind":"slide","id":"sl/mtds9l","slide":5,"title":"DATA","textShapes":10}
+{"kind":"textbox","id":"sh/d43idkvm","slide":5,"text":"DATA","textPreview":"DATA","textChars":4,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/qhczi5cv","slide":5,"text":"Traceable Finnish data pipeline","textPreview":"Traceable Finnish data pipeline","textChars":31,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/bil0badg","slide":5,"text":"Public treebanks remain distinct from derived learner-error and evaluation artifacts","textPreview":"Public treebanks remain distinct from derived learner-error and evaluation artifacts","textChars":84,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/ofahgfu5","slide":5,"text":"UD Finnish-TDT\nCC BY-SA 4.0","textPreview":"UD Finnish-TDT | CC BY-SA 4.0","textChars":27,"textLines":2,"bbox":[72,178,280,108]}
+{"kind":"textbox","id":"sh/pg3i9kvq","slide":5,"text":"UD Finnish-FTB\nCC BY 4.0","textPreview":"UD Finnish-FTB | CC BY 4.0","textChars":24,"textLines":2,"bbox":[72,330,280,108]}
+{"kind":"textbox","id":"sh/2dsze5wz","slide":5,"text":"Strict CoNLL-U parsing\n33,859 sentences\n361,818 word tokens","textPreview":"Strict CoNLL-U parsing | 33,859 sentences | 361,818 word tokens","textChars":59,"textLines":3,"bbox":[455,220,280,140]}
+{"kind":"textbox","id":"sh/3e107adk","slide":5,"text":"Controlled synthetic errors\nsource IDs + leakage_group_id\nversioned manifests and hashes","textPreview":"Controlled synthetic errors | source IDs + leakage_group_id | versioned manifests and hashes","textChars":88,"textLines":3,"bbox":[838,220,350,140]}
+{"kind":"shape","id":"sh/gbahcvet","slide":5,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/1cji50ve","slide":5,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/50retoby","slide":5,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/4zid0jat","slide":5,"text":"FinnWordNet adds English sense candidates to the separate vocabulary index. It does not label grammar errors.","textPreview":"FinnWordNet adds English sense candidates to the separate vocabulary index. It does not label grammar errors.","textChars":109,"textLines":1,"bbox":[274,500,740,66]}
+{"kind":"shape","id":"sh/jy9wret8","slide":5,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/ix0vy9sn","slide":5,"text":"Sources and licenses: docs/DATA_SOURCES.md","textPreview":"Sources and licenses: docs/DATA_SOURCES.md","textChars":42,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/hwrep4b2","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"notes","id":"nt/mtds9l","slide":5,"text":"Sources: https://github.com/UniversalDependencies/UD_Finnish-TDT and https://github.com/UniversalDependencies/UD_Finnish-FTB. Counts come from the Phase 3 preprocessing manifest documented in docs/DATA_SOURCES.md."}
+{"kind":"slide","id":"sl/zvof6p","slide":6,"title":"DATA TRANSFORMATION","textShapes":13}
+{"kind":"textbox","id":"sh/rmdoju58","slide":6,"text":"DATA TRANSFORMATION","textPreview":"DATA TRANSFORMATION","textChars":19,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/s7mpcf6t","slide":6,"text":"Controlled synthetic learner errors","textPreview":"Controlled synthetic learner errors","textChars":35,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/d8v6lkne","slide":6,"text":"A narrow, reproducible proxy for the classical baseline","textPreview":"A narrow, reproducible proxy for the classical baseline","textChars":55,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/e947epoz","slide":6,"text":"CORRECT","textPreview":"CORRECT","textChars":7,"textLines":1,"bbox":[84,188,180,28]}
+{"kind":"shape","id":"sh/fad8nu5k","slide":6,"bbox":[72,224,480,104]}
+{"kind":"textbox","id":"sh/0b6pgz6p","slide":6,"text":"Minä menen kouluun.","textPreview":"Minä menen kouluun.","textChars":19,"textLines":1,"bbox":[104,246,420,60]}
+{"kind":"textbox","id":"sh/1cfqp4na","slide":6,"text":"TRANSFORMATION","textPreview":"TRANSFORMATION","textChars":14,"textLines":1,"bbox":[84,382,180,28]}
+{"kind":"shape","id":"sh/udk7i5of","slide":6,"bbox":[72,418,480,104]}
+{"kind":"textbox","id":"sh/vetoba50","slide":6,"text":"minä + 3rd person verb","textPreview":"minä + 3rd person verb","textChars":22,"textLines":1,"bbox":[104,442,420,56]}
+{"kind":"shape","id":"sh/r2xw3618","slide":6,"bbox":[680,250,500,176]}
+{"kind":"textbox","id":"sh/q1ofu10n","slide":6,"text":"SYNTHETIC ERROR","textPreview":"SYNTHETIC ERROR","textChars":15,"textLines":1,"bbox":[718,270,230,28]}
+{"kind":"textbox","id":"sh/dofe5wjy","slide":6,"text":"Minä menee kouluun.","textPreview":"Minä menee kouluun.","textChars":19,"textLines":1,"bbox":[718,312,420,54]}
+{"kind":"textbox","id":"sh/s36xwrid","slide":6,"text":"VERB_CONJUGATION","textPreview":"VERB_CONJUGATION","textChars":16,"textLines":1,"bbox":[718,376,280,34]}
+{"kind":"textbox","id":"sh/3yxwzm1w","slide":6,"text":"Why synthetic data: reproducible transformations were feasible within scope, while suitable authentic learner data was not available. The result does not prove real-learner generalization.","textPreview":"Why synthetic data: reproducible transformations were feasible within scope, while suitable authentic learner data was not available. The...","textChars":188,"textLines":1,"bbox":[664,476,520,106]}
+{"kind":"shape","id":"sh/ix4fqh0b","slide":6,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/50fe1wj2","slide":6,"text":"Source: data/errors/error_generation_manifest_v1.json","textPreview":"Source: data/errors/error_generation_manifest_v1.json","textChars":53,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/4z6xsrih","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"notes","id":"nt/zvof6p","slide":6,"text":"The production generator uses corpus-observed compatible forms and records the exact transformation. The presentation example is the project’s canonical verb-agreement example."}
+{"kind":"slide","id":"sl/gvjbzm","slide":7,"title":"MACHINE LEARNING","textShapes":9}
+{"kind":"textbox","id":"sh/exkze18z","slide":7,"text":"MACHINE LEARNING","textPreview":"MACHINE LEARNING","textChars":16,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/1kvi9g7a","slide":7,"text":"Classical ML baseline","textPreview":"Classical ML baseline","textChars":21,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/0z2hgbqp","slide":7,"text":"Character TF-IDF and Logistic Regression on three synthetic error classes","textPreview":"Character TF-IDF and Logistic Regression on three synthetic error classes","textChars":73,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"shape","id":"sh/6tkzah8n","slide":7,"bbox":[824,182,360,176]}
+{"kind":"textbox","id":"sh/twbi5w7e","slide":7,"text":"Test set","textPreview":"Test set","textChars":8,"textLines":1,"bbox":[858,204,290,34]}
+{"kind":"textbox","id":"sh/sv2hcrqt","slide":7,"text":"71.0%","textPreview":"71.0%","textChars":5,"textLines":1,"bbox":[854,244,300,66]}
+{"kind":"textbox","id":"sh/jq90zmpc","slide":7,"text":"Accuracy\nMacro F1 70.9%","textPreview":"Accuracy | Macro F1 70.9%","textChars":23,"textLines":2,"bbox":[858,306,300,48]}
+{"kind":"textbox","id":"sh/ip0z6h8r","slide":7,"text":"Group-aware 70/15/15 approximation\nZero leakage-group overlap\nPipeline fitted on training data only\nShortcut risk remains visible","textPreview":"Group-aware 70/15/15 approximation | Zero leakage-group overlap | Pipeline fitted on training data only | Shortcut risk remains visible","textChars":129,"textLines":4,"bbox":[836,388,342,176]}
+{"kind":"shape","id":"sh/0bed07uh","slide":7,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/1cnu9cb2","slide":7,"text":"n = 3,000 synthetic examples; test n = 449","textPreview":"n = 3,000 synthetic examples; test n = 449","textChars":42,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/epwvyxcb","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"chart","id":"ch/3mxs3u94","slide":7,"name":"","chartType":"bar","bbox":[72,180,690,390]}
+{"kind":"notes","id":"nt/gvjbzm","slide":7,"text":"Source: reports/final_evaluation_v1.json and models/error_classifier_v1_metadata.json. This baseline classifies an already-incorrect sentence into one of three synthetic categories."}
+{"kind":"slide","id":"sl/tp7mmo","slide":8,"title":"PRODUCTION AI","textShapes":10}
+{"kind":"textbox","id":"sh/2p4ja1gj","slide":8,"text":"PRODUCTION AI","textPreview":"PRODUCTION AI","textChars":13,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/psv25gfu","slide":8,"text":"Validated LLM grammar checker","textPreview":"Validated LLM grammar checker","textChars":29,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/4rm1cby9","slide":8,"text":"Contextual detection, correction, explanation, and learning tips","textPreview":"Contextual detection, correction, explanation, and learning tips","textChars":64,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/u1kj6hg7","slide":8,"text":"Grammar Service","textPreview":"Grammar Service","textChars":15,"textLines":1,"bbox":[74,170,400,68]}
+{"kind":"textbox","id":"sh/h4b21wfy","slide":8,"text":"LLM Service","textPreview":"LLM Service","textChars":11,"textLines":1,"bbox":[74,272,400,68]}
+{"kind":"textbox","id":"sh/g3218ryd","slide":8,"text":"JSON extraction","textPreview":"JSON extraction","textChars":15,"textLines":1,"bbox":[74,374,400,68]}
+{"kind":"textbox","id":"sh/7yt0vmxw","slide":8,"text":"GrammarResult validation","textPreview":"GrammarResult validation","textChars":24,"textLines":1,"bbox":[74,476,400,68]}
+{"kind":"shape","id":"sh/6x0j2hgb","slide":8,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/g3m50fip","slide":8,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/h4vm9kja","slide":8,"bbox":[0,0,0,0]}
+{"kind":"textbox","id":"sh/u1kny50j","slide":8,"text":"Minä menee kouluun.  →  Minä menen kouluun.","textPreview":"Minä menee kouluun.  →  Minä menen kouluun.","textChars":43,"textLines":1,"bbox":[72,604,1100,38]}
+{"kind":"shape","id":"sh/v2t47a14","slide":8,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/8f25wf2d","slide":8,"text":"Screenshot: previously recorded real Phase 11 system output","textPreview":"Screenshot: previously recorded real Phase 11 system output","textChars":59,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/t0bm5kjy","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"image","id":"im/yhovuxkr","slide":8,"name":"","geometry":"roundRect","alt":"Grammar Checker showing a preserved real correction","bbox":[622,160,586,414]}
+{"kind":"notes","id":"nt/tp7mmo","slide":8,"text":"Source: app/services/grammar_service.py, app/services/llm_service.py, and the preserved Phase 11 grammar output for single_verb_01. The screenshot is explicitly a previously recorded real output, not a current live call."}
+{"kind":"slide","id":"sl/7de5to","slide":9,"title":"LEARNER PROFILE","textShapes":14}
+{"kind":"textbox","id":"sh/i54bq5cz","slide":9,"text":"LEARNER PROFILE","textPreview":"LEARNER PROFILE","textChars":15,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/58fa1kva","slide":9,"text":"Personalization from stored mistakes","textPreview":"Personalization from stored mistakes","textChars":36,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/k7mtsfup","slide":9,"text":"Deterministic aggregation selects the learner's highest supported weakness","textPreview":"Deterministic aggregation selects the learner's highest supported weakness","textChars":74,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/ah4bm5cn","slide":9,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[810,184,48,48]}
+{"kind":"textbox","id":"sh/x4vaxkve","slide":9,"text":"Persist once","textPreview":"Persist once","textChars":12,"textLines":1,"bbox":[884,178,270,38]}
+{"kind":"textbox","id":"sh/w3mtofut","slide":9,"text":"One grammar check and its errors use one SQLite transaction.","textPreview":"One grammar check and its errors use one SQLite transaction.","textChars":60,"textLines":1,"bbox":[884,218,294,66]}
+{"kind":"textbox","id":"sh/fyxc7udc","slide":9,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[810,326,48,48]}
+{"kind":"textbox","id":"sh/udoby9c7","slide":9,"text":"Aggregate","textPreview":"Aggregate","textChars":9,"textLines":1,"bbox":[884,320,270,38]}
+{"kind":"textbox","id":"sh/gvy9g32x","slide":9,"text":"Counts and percentages come from stored error rows.","textPreview":"Counts and percentages come from stored error rows.","textChars":51,"textLines":1,"bbox":[884,360,294,66]}
+{"kind":"textbox","id":"sh/hw7q9oji","slide":9,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[810,468,48,48]}
+{"kind":"textbox","id":"sh/utgretkr","slide":9,"text":"Select target","textPreview":"Select target","textChars":13,"textLines":1,"bbox":[884,462,270,38]}
+{"kind":"textbox","id":"sh/vup87y1c","slide":9,"text":"Highest supported category drives the next exercise.","textPreview":"Highest supported category drives the next exercise.","textChars":52,"textLines":1,"bbox":[884,502,294,66]}
+{"kind":"shape","id":"sh/8re9cj21","slide":9,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/ts7q5ojm","slide":9,"text":"Controlled demo_user state; no production database is committed","textPreview":"Controlled demo_user state; no production database is committed","textChars":63,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/6pw7a9kv","slide":9,"text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"image","id":"im/u90byh87","slide":9,"name":"","geometry":"roundRect","alt":"My Mistakes page with controlled demo history and weakness profile","bbox":[70,162,682,430]}
+{"kind":"notes","id":"nt/7de5to","slide":9,"text":"Source: app/services/database_service.py and app/services/profile_service.py. The screenshot uses the disposable demo database prepared for the presentation."}
+{"kind":"slide","id":"sl/f39qg4","slide":10,"title":"PRODUCT DEMO","textShapes":9}
+{"kind":"textbox","id":"sh/0fapgral","slide":10,"text":"PRODUCT DEMO","textPreview":"PRODUCT DEMO","textChars":12,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/ze187mt0","slide":10,"text":"Integrated Streamlit product","textPreview":"Integrated Streamlit product","textChars":28,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/eds7ehsf","slide":10,"text":"Focused views support the complete learner flow","textPreview":"Focused views support the complete learner flow","textChars":47,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"textbox","id":"sh/m1c7i1sb","slide":10,"text":"Grammar","textPreview":"Grammar","textChars":7,"textLines":1,"bbox":[70,398,360,32]}
+{"kind":"textbox","id":"sh/p8z61cbi","slide":10,"text":"Vocabulary","textPreview":"Vocabulary","textChars":10,"textLines":1,"bbox":[460,398,360,32]}
+{"kind":"textbox","id":"sh/47qp87ad","slide":10,"text":"Targeted practice","textPreview":"Targeted practice","textChars":17,"textLines":1,"bbox":[850,398,360,32]}
+{"kind":"textbox","id":"sh/29sfel83","slide":10,"text":"Explicit actions make Streamlit reruns safe: rendering does not repeat API calls or database inserts, and answer checking keeps the exercise stable.","textPreview":"Explicit actions make Streamlit reruns safe: rendering does not repeat API calls or database inserts, and answer checking keeps the exerc...","textChars":148,"textLines":1,"bbox":[166,488,948,90]}
+{"kind":"shape","id":"sh/3a1g7qpo","slide":10,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/obaxgbq9","slide":10,"text":"Screenshots from the actual application components; fallback outputs are labeled","textPreview":"Screenshots from the actual application components; fallback outputs are labeled","textChars":80,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/pcjy9g7u","slide":10,"text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"image","id":"im/wzedk3e1","slide":10,"name":"","geometry":"roundRect","alt":"Grammar Checker input and result","bbox":[70,162,360,220]}
+{"kind":"image","id":"im/xknet8vm","slide":10,"name":"","geometry":"roundRect","alt":"Vocabulary lookup for koulu","bbox":[460,162,360,220]}
+{"kind":"image","id":"im/axcvitwb","slide":10,"name":"","geometry":"roundRect","alt":"Practice page with correct-answer feedback","bbox":[850,162,360,220]}
+{"kind":"notes","id":"nt/f39qg4","slide":10,"text":"Screenshots were captured from the project Streamlit UI. Grammar and exercise screenshots use preserved real Phase 11 outputs because the Phase 12 live grammar smoke encountered provider unavailability."}
+{"kind":"slide","id":"sl/w1b98k","slide":11,"title":"EVIDENCE","textShapes":11}
+{"kind":"textbox","id":"sh/axobyxcb","slide":11,"text":"EVIDENCE","textPreview":"EVIDENCE","textChars":8,"textLines":1,"bbox":[72,28,400,30]}
+{"kind":"textbox","id":"sh/x0zutcvm","slide":11,"text":"Phase 11 evaluation","textPreview":"Phase 11 evaluation","textChars":19,"textLines":1,"bbox":[72,56,1136,60]}
+{"kind":"textbox","id":"sh/cz6t07uh","slide":11,"text":"Quantitative structure and AI-assisted linguistic review are reported separately","textPreview":"Quantitative structure and AI-assisted linguistic review are reported separately","textChars":80,"textLines":1,"bbox":[72,114,1080,36]}
+{"kind":"shape","id":"sh/yl8b2hc7","slide":11,"bbox":[798,174,390,388]}
+{"kind":"textbox","id":"sh/lozuxcvy","slide":11,"text":"Selected evidence","textPreview":"Selected evidence","textChars":17,"textLines":1,"bbox":[830,196,326,40]}
+{"kind":"textbox","id":"sh/knqd4rud","slide":11,"text":"94.44%","textPreview":"94.44%","textChars":6,"textLines":1,"bbox":[830,254,200,52]}
+{"kind":"textbox","id":"sh/fqdcjido","slide":11,"text":"Grammar detection F1\n39 predictions from 40 cases","textPreview":"Grammar detection F1 | 39 predictions from 40 cases","textChars":49,"textLines":2,"bbox":[830,306,310,58]}
+{"kind":"textbox","id":"sh/ep4bqdw3","slide":11,"text":"1/22","textPreview":"1/22","textChars":4,"textLines":1,"bbox":[830,386,200,46]}
+{"kind":"textbox","id":"sh/83etoj61","slide":11,"text":"False positives among valid cases\n4.55% frozen-set rate","textPreview":"False positives among valid cases | 4.55% frozen-set rate","textChars":55,"textLines":2,"bbox":[830,434,310,58]}
+{"kind":"textbox","id":"sh/94nuhonm","slide":11,"text":"AI-assisted qualitative linguistic review, not Finnish-teacher validation","textPreview":"AI-assisted qualitative linguistic review, not Finnish-teacher validation","textChars":73,"textLines":1,"bbox":[830,510,316,42]}
+{"kind":"shape","id":"sh/m1wbm9ov","slide":11,"bbox":[72,680,1136,0]}
+{"kind":"textbox","id":"sh/725cfe5g","slide":11,"text":"Grammar n = 40; exercise n = 20; ML test n = 449","textPreview":"Grammar n = 40; exercise n = 20; ML test n = 449","textChars":48,"textLines":1,"bbox":[72,684,980,22]}
+{"kind":"textbox","id":"sh/g7ytsj6x","slide":11,"text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1140,684,68,22]}
+{"kind":"chart","id":"ch/r698za1w","slide":11,"name":"","chartType":"bar","bbox":[72,174,660,388]}
+{"kind":"notes","id":"nt/w1b98k","slide":11,"text":"Source: reports/final_evaluation_v1.json. Displayed rates are loaded from the machine-readable report. Grammar output validity was 39/40. Exercise structural validity was 20/20. Exercise distractor PASS rate was 11/20."}
+{"kind":"slide","id":"sl/uoz88n","slide":12,"title":"LIMITATIONS AND NEXT EVIDENCE","textShapes":6}
+{"kind":"textbox","id":"sh/ux8fix43","slide":12,"text":"LIMITATIONS AND NEXT EVIDENCE","textPreview":"LIMITATIONS AND NEXT EVIDENCE","textChars":29,"textLines":1,"bbox":[72,42,520,28]}
+{"kind":"textbox","id":"sh/h0jydcne","slide":12,"text":"A complete MVP with honest boundaries","textPreview":"A complete MVP with honest boundaries","textChars":37,"textLines":1,"bbox":[72,82,930,62]}
+{"kind":"textbox","id":"sh/gzqxk7m9","slide":12,"text":"The ML baseline uses controlled synthetic learner errors.\nThe grammar set has 40 cases and the exercise sample has 20 items.\nQualitative review was AI-assisted, not a Finnish-teacher evaluation.\nLLM output and latency depend on the external provider.\nVocabulary coverage is corpus-bounded and meanings are not context-ranked.\nSQLite and demo_user suit a local MVP, not multi-user production.","textPreview":"The ML baseline uses controlled synthetic learner errors. | The grammar set has 40 cases and the exercise sample has 20 items. | Qualitat...","textChars":391,"textLines":6,"bbox":[74,190,720,330]}
+{"kind":"shape","id":"sh/3m1gfm5k","slide":12,"bbox":[858,180,340,330]}
+{"kind":"textbox","id":"sh/i1sfmh4z","slide":12,"text":"Future validation","textPreview":"Future validation","textChars":17,"textLines":1,"bbox":[892,210,270,44]}
+{"kind":"textbox","id":"sh/5ojyhwnq","slide":12,"text":"Authentic learner corpus\n\nFinnish-teacher review\n\nLarger evaluation sample\n\nStronger exercise validation\n\nManaged identity and persistence","textPreview":"Authentic learner corpus |  | Finnish-teacher review |  | Larger evaluation sample |  | Stronger exercise validation |  | Managed identit...","textChars":138,"textLines":9,"bbox":[892,278,270,216]}
+{"kind":"textbox","id":"sh/4naxorm5","slide":12,"text":"The project demonstrates an evidence-backed learning loop from input to personalized practice.","textPreview":"The project demonstrates an evidence-backed learning loop from input to personalized practice.","textChars":94,"textLines":1,"bbox":[72,582,1090,58]}
+{"kind":"notes","id":"nt/uoz88n","slide":12,"text":"Close by summarizing what the system proves today and what still requires authentic learner data, Finnish-teacher validation, and production infrastructure."}

@@ -18,7 +18,7 @@ from app.models.grammar import ErrorType, GrammarError, GrammarResult
 from app.models.learner import LearnerProfile, LearnerWeakness
 from app.services.database_service import DatabaseService
 from app.services.profile_service import ProfileService
-from app.ui.common import error_type_label, profile_rows
+from app.ui.common import error_type_label, format_activity_time, profile_rows
 from app.ui.grammar_page import analyze_and_persist
 from app.ui.home import APP_DESCRIPTION
 
@@ -118,11 +118,12 @@ class _FakeExerciseService:
     generate_calls: int = 0
     check_calls: int = 0
     generated: Exercise = _exercise()
+    expected_error_type: ErrorType | None = None
 
     def generate_for_learner(self, learner_id: str, *, error_type: object = None) -> Exercise:
         self.generate_calls += 1
         assert learner_id == "demo_user"
-        assert error_type is None
+        assert error_type is self.expected_error_type
         return self.generated
 
     def check_answer(self, exercise: Exercise, answer: str) -> ExerciseAttemptResult:
@@ -147,6 +148,24 @@ def _render_practice_test_page(profile_service: object, exercise_service: object
     )
 
 
+def _render_requested_practice_test_page(
+    profile_service: object,
+    exercise_service: object,
+    requested_topic: object,
+) -> None:
+    import streamlit as st
+
+    from app.ui.common import initialize_session_state
+    from app.ui.practice_page import render_practice_page
+
+    initialize_session_state()
+    st.session_state["practice_requested_topic"] = requested_topic
+    render_practice_page(
+        profile_service=profile_service,
+        exercise_service=exercise_service,
+    )
+
+
 def test_error_type_labels_are_centralized() -> None:
     assert error_type_label(ErrorType.VERB_CONJUGATION) == "Verb conjugation"
     assert error_type_label("CASE_ERROR") == "Case error"
@@ -163,8 +182,13 @@ def test_profile_rows_are_learner_friendly() -> None:
         weaknesses = (Weakness(),)
 
     assert profile_rows(Profile()) == [
-        {"Error type": "Case error", "Count": 3, "Percentage": "75.00%"}
+        {"Error type": "Case error", "Count": 3, "Percentage": "75%"}
     ]
+
+
+def test_activity_time_is_readable_without_guessing_naive_timezone() -> None:
+    assert format_activity_time("2026-09-20T01:26:43Z") == "20 Sep 2026, 01:26 UTC"
+    assert format_activity_time("2026-09-20T01:26:43") == "20 Sep 2026, 01:26"
 
 
 def test_explicit_grammar_action_persists_once() -> None:
@@ -271,11 +295,16 @@ def test_practice_exercise_and_answer_survive_streamlit_reruns() -> None:
     assert exercise_service.generate_calls == 1
 
     app.run()
+    assert app.radio[0].value is None
+    check_button = next(button for button in app.button if button.label == "Check Answer")
+    assert check_button.disabled
+
     app.radio[0].set_value("menen").run()
     assert exercise_service.generate_calls == 1
     assert app.session_state["practice_exercise"].exercise_id == exercise_id
 
     check_button = next(button for button in app.button if button.label == "Check Answer")
+    assert not check_button.disabled
     check_button.click().run()
     assert exercise_service.generate_calls == 1
     assert exercise_service.check_calls == 1
@@ -283,6 +312,32 @@ def test_practice_exercise_and_answer_survive_streamlit_reruns() -> None:
     assert app.session_state["practice_attempt"].is_correct
     assert any("Correct answer!" in item.value for item in app.success)
     assert any("Correct answer:" in item.value for item in app.markdown)
+
+
+def test_practice_uses_topic_requested_from_grammar_feedback() -> None:
+    profile = LearnerProfile(
+        learner_id="demo_user",
+        total_checks=1,
+        total_errors=1,
+        weaknesses=(
+            LearnerWeakness(
+                error_type=ErrorType.VERB_CONJUGATION,
+                count=1,
+                percentage=100.0,
+            ),
+        ),
+    )
+    profile_service = _FakeProfileService(profile)
+    exercise_service = _FakeExerciseService(expected_error_type=ErrorType.CASE_ERROR)
+    app = AppTest.from_function(
+        _render_requested_practice_test_page,
+        args=(profile_service, exercise_service, ErrorType.CASE_ERROR),
+    ).run()
+
+    app.button[0].click().run()
+
+    assert exercise_service.generate_calls == 1
+    assert app.session_state["practice_requested_topic"] is ErrorType.CASE_ERROR
 
 
 def test_incorrect_multi_error_result_is_rendered_and_persisted_once(tmp_path: Path) -> None:
@@ -334,3 +389,8 @@ def test_incorrect_multi_error_result_is_rendered_and_persisted_once(tmp_path: P
     assert "Verb conjugation" in rendered
     assert "Case error" in rendered
     assert "Minä menen kouluun." in rendered
+
+    practice_button = next(button for button in app.button if button.label == "Practice this pattern")
+    practice_button.click().run()
+    assert app.session_state["nav_page"] == "Practice"
+    assert app.session_state["practice_requested_topic"] is ErrorType.VERB_CONJUGATION

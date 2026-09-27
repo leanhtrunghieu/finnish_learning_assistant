@@ -987,7 +987,7 @@ failures become safe `ExerciseServiceError` messages.
 Phase 9 intentionally does not persist exercise attempts, couple generation to
 the Phase 8 vocabulary index, add recommendation ML, or build the final
 Streamlit Practice UI. Generated exercises remain LLM-produced teaching
-material and require later manual linguistic evaluation.
+material and require separate AI-assisted or human linguistic evaluation.
 
 ---
 
@@ -1018,6 +1018,39 @@ The six pages are Home, Grammar Checker, Vocabulary, My Mistakes (including the
 weakness profile), Practice, and About. The Phase 5 classifier remains a
 comparison artifact and is not placed in the end-user grammar flow. Phase 10
 does not alter prior datasets, models, services, or add Phase 11 evaluation.
+
+## Phase 11 evaluation architecture
+
+Phase 11 adds an evaluation-only orchestration layer under `app/evaluation/`.
+It calls the existing grammar, vocabulary, profile, exercise, persistence, and
+UI boundaries; it does not duplicate or replace those production services.
+Raw provider attempts are retained in JSONL and aggregated into a versioned
+machine-readable report, which is then rendered into the final Markdown report
+and reproducible end-to-end checklist.
+
+```text
+frozen evaluation cases
+          |
+          v
+existing production services ----> raw per-request JSONL
+          |                                  |
+          v                                  v
+deterministic checks --------------> versioned JSON metrics
+                                             |
+                                             v
+                              report + evaluation notebook
+```
+
+The runner uses temporary SQLite databases for controlled learner histories and
+Streamlit's test harness for rerun safety. A separate subprocess health check
+verifies that `streamlit run app.py` still starts. Provider-backed measurements
+remain distinct from local deterministic measurements and unavailable metrics
+remain null rather than being converted into zero scores.
+
+Final qualitative aggregation uses the evaluator's `--reuse-live-results`
+path. It merges the completed AI-assisted review fields into deep copies of the
+preserved raw 40+20 records, recomputes reports, and never calls the provider.
+The worksheet renderer preserves completed reviews instead of resetting them.
 
 ---
 

@@ -15,6 +15,7 @@ from app.services.exercise_service import ExerciseService, ExerciseServiceError,
 from app.services.profile_service import ProfileService
 from app.ui.common import clear_practice_state, error_type_label
 from app.ui.services import get_exercise_service, get_profile_service
+from app.ui.theme import render_empty_state, render_eyebrow
 
 
 def _supported_topic_label(error_type: ErrorType) -> str:
@@ -23,11 +24,12 @@ def _supported_topic_label(error_type: ErrorType) -> str:
 
 def _render_attempt(attempt: ExerciseAttemptResult) -> None:
     if attempt.is_correct:
-        st.success("Correct answer!")
+        st.success("Correct answer!", icon="✅")
     else:
-        st.error("Not quite. Review the correction below.")
-    st.write(f"**Correct answer:** {attempt.correct_answer}")
-    st.info(attempt.explanation)
+        st.error("Not quite — review the answer below.", icon="❌")
+    with st.container(border=True):
+        st.markdown(f"**Correct answer:** {attempt.correct_answer}")
+        st.write(attempt.explanation)
 
 
 def render_practice_page(
@@ -38,8 +40,9 @@ def render_practice_page(
 ) -> None:
     """Render profile-driven practice while keeping the exercise in session state."""
 
+    render_eyebrow("Strengthen a pattern")
     st.title("Practice")
-    st.write("Generate one short exercise for your most frequent supported grammar weakness.")
+    st.write("Generate a focused exercise based on the grammar pattern that needs the most attention.")
     try:
         profile = (profile_service or get_profile_service()).get_profile(learner_id)
     except DatabaseError:
@@ -57,11 +60,21 @@ def render_practice_page(
         ),
         None,
     )
-    if supported_primary is not None:
-        st.caption(f"Current practice target: {error_type_label(supported_primary)}")
+    requested_topic = st.session_state.get("practice_requested_topic")
+    if requested_topic in SUPPORTED_GENERATION_ERROR_TYPES:
+        with st.container(border=True):
+            st.caption("CHOSEN FROM YOUR GRAMMAR FEEDBACK")
+            st.markdown(f"### {error_type_label(requested_topic)}")
+            st.write("Generate an exercise to practise the pattern you just reviewed.")
+        selected_topic = requested_topic
+    elif supported_primary is not None:
+        with st.container(border=True):
+            st.caption("CURRENT PRACTICE FOCUS")
+            st.markdown(f"### {error_type_label(supported_primary)}")
+            st.write("This focus comes from the mistakes in your learning history.")
         selected_topic: ErrorType | None = None
     else:
-        st.info("No supported weakness is recorded yet. Choose a general practice topic to begin.")
+        st.info("Your history does not show a practice focus yet. Choose a topic to begin.")
         selected_topic = st.selectbox(
             "Practice topic",
             options=list(SUPPORTED_GENERATION_ERROR_TYPES),
@@ -70,8 +83,14 @@ def render_practice_page(
         )
 
     current = st.session_state.get("practice_exercise")
-    button_label = "Generate Exercise" if not isinstance(current, Exercise) else "New Exercise"
-    if st.button(button_label, type="primary", key="generate_practice"):
+    button_label = "Generate an exercise" if not isinstance(current, Exercise) else "Generate a new exercise"
+    if st.button(
+        button_label,
+        type="primary",
+        key="generate_practice",
+        icon=":material/auto_awesome:",
+        width="stretch",
+    ):
         try:
             service = exercise_service or get_exercise_service()
             with st.spinner("Generating a Finnish practice exercise…"):
@@ -100,22 +119,35 @@ def render_practice_page(
 
     exercise = st.session_state.get("practice_exercise")
     if not isinstance(exercise, Exercise):
+        render_empty_state(
+            "Your next exercise will appear here",
+            "Generate an exercise when you are ready to practise.",
+        )
         return
     st.subheader(f"{error_type_label(exercise.error_type)} practice")
-    st.caption("Choose the best answer. The exercise is kept stable until you request a new one.")
-    st.markdown(f"**{exercise.question}**")
-    answer = st.radio(
-        "Answer",
-        options=list(exercise.options),
-        key=f"practice_answer_{exercise.exercise_id}",
-        label_visibility="collapsed",
-    )
-    if st.button("Check Answer", key=f"check_answer_{exercise.exercise_id}"):
+    st.caption("Choose the best answer. Your exercise stays in place until you request a new one.")
+    with st.container(border=True):
+        st.markdown(f"### {exercise.question}")
+        answer = st.radio(
+            "Choose an answer",
+            options=list(exercise.options),
+            index=None,
+            key=f"practice_answer_{exercise.exercise_id}",
+        )
+        check_answer = st.button(
+            "Check Answer",
+            key=f"check_answer_{exercise.exercise_id}",
+            type="primary",
+            icon=":material/check_circle:",
+            disabled=answer is None,
+            width="stretch",
+        )
+    if check_answer and answer is not None:
         try:
             service = exercise_service or get_exercise_service()
             st.session_state["practice_attempt"] = service.check_answer(exercise, answer)
         except ExerciseServiceError:
-            st.error("That answer could not be checked. Please choose one of the listed options.")
+            st.error("That answer could not be checked. Choose one of the listed options and try again.")
     attempt = st.session_state.get("practice_attempt")
     if isinstance(attempt, ExerciseAttemptResult):
         _render_attempt(attempt)

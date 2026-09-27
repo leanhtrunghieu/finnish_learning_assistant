@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Protocol
@@ -12,8 +13,44 @@ import requests
 from dotenv import load_dotenv
 
 
+@dataclass(frozen=True, slots=True)
+class LLMFailureDiagnostic:
+    """Non-secret details that locate a provider failure without exposing the request."""
+
+    stage: str
+    exception_class: str
+    http_status: int | None = None
+    provider_error_type: str | None = None
+    provider_error_code: str | None = None
+    provider_message: str | None = None
+    request_id: str | None = None
+    retry_after: str | None = None
+    parse_category: str | None = None
+
+    def to_safe_dict(self) -> dict[str, Any]:
+        return {
+            key: value
+            for key, value in {
+                "stage": self.stage,
+                "exception_class": self.exception_class,
+                "http_status": self.http_status,
+                "provider_error_type": self.provider_error_type,
+                "provider_error_code": self.provider_error_code,
+                "provider_message": self.provider_message,
+                "request_id": self.request_id,
+                "retry_after": self.retry_after,
+                "parse_category": self.parse_category,
+            }.items()
+            if value is not None
+        }
+
+
 class LLMServiceError(RuntimeError):
     """Base class for expected, user-safe provider failures."""
+
+    def __init__(self, message: str, *, diagnostic: LLMFailureDiagnostic | None = None) -> None:
+        super().__init__(message)
+        self.diagnostic = diagnostic
 
 
 class LLMConfigurationError(LLMServiceError):
@@ -125,7 +162,7 @@ class LLMService:
         payload = {
             "model": self.settings.model,
             "temperature": self.settings.temperature,
-            "max_tokens": self.settings.max_output_tokens,
+            "max_completion_tokens": self.settings.max_output_tokens,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {
@@ -135,28 +172,40 @@ class LLMService:
             ],
             "response_format": {"type": "json_object"},
         }
+        # Current GPT-5.6 reasoning models only accept sampling parameters when
+        # reasoning is disabled. Preserve the configured temperature explicitly.
+        if self.settings.model.startswith("gpt-5.6"):
+            payload["reasoning_effort"] = "none"
         headers = {"Authorization": f"Bearer {self.settings.api_key}", "Content-Type": "application/json"}
         last_error: LLMServiceError | None = None
         for attempt in range(self.settings.max_retries + 1):
             retry_after_header: str | None = None
             try:
                 response = self.session.post(url, headers=headers, json=payload, timeout=self.settings.timeout_seconds)
-            except requests.Timeout as exc:
-                last_error = LLMTimeoutError("LLM request timed out")
-            except requests.ConnectionError as exc:
-                last_error = LLMNetworkError("LLM network connection failed")
-            except requests.RequestException as exc:
-                last_error = LLMNetworkError("LLM request failed")
+            except requests.Timeout:
+                last_error = self._transport_error(LLMTimeoutError, "LLM request timed out")
+            except requests.ConnectionError:
+                last_error = self._transport_error(LLMNetworkError, "LLM network connection failed")
+            except requests.RequestException:
+                last_error = self._transport_error(LLMNetworkError, "LLM request failed")
             else:
                 retry_after_header = response.headers.get("Retry-After")
                 if response.status_code in (401, 403):
-                    raise LLMAuthenticationError("LLM authentication failed")
+                    raise self._http_error(LLMAuthenticationError, "LLM authentication failed", response)
                 if response.status_code == 429:
-                    last_error = LLMRateLimitError("LLM rate limit reached")
+                    last_error = self._http_error(LLMRateLimitError, "LLM rate limit reached", response)
                 elif response.status_code >= 500:
-                    last_error = LLMProviderError(f"LLM provider server error ({response.status_code})")
+                    last_error = self._http_error(
+                        LLMProviderError,
+                        f"LLM provider server error ({response.status_code})",
+                        response,
+                    )
                 elif response.status_code >= 400:
-                    raise LLMProviderError(f"LLM provider rejected the request ({response.status_code})")
+                    raise self._http_error(
+                        LLMProviderError,
+                        f"LLM provider rejected the request ({response.status_code})",
+                        response,
+                    )
                 else:
                     return self._parse_response(response, response_schema)
             if attempt < self.settings.max_retries:
@@ -174,17 +223,100 @@ class LLMService:
         try:
             body = response.json()
         except (ValueError, TypeError) as exc:
-            raise LLMResponseError("LLM returned invalid JSON at the provider envelope") from exc
+            raise LLMResponseError(
+                "LLM returned invalid JSON at the provider envelope",
+                diagnostic=LLMService._response_diagnostic(
+                    response, "provider_envelope_json", "provider_envelope"
+                ),
+            ) from exc
         try:
             content = body["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as exc:
-            raise LLMResponseError("LLM provider response did not contain message content") from exc
+            raise LLMResponseError(
+                "LLM provider response did not contain message content",
+                diagnostic=LLMService._response_diagnostic(
+                    response, "message_content_missing", "extraction"
+                ),
+            ) from exc
         if not isinstance(content, str) or not content.strip():
-            raise LLMResponseError("LLM provider returned empty message content")
+            raise LLMResponseError(
+                "LLM provider returned empty message content",
+                diagnostic=LLMService._response_diagnostic(
+                    response, "message_content_empty", "extraction"
+                ),
+            )
         try:
             parsed = json.loads(content)
         except json.JSONDecodeError as exc:
-            raise LLMResponseError("LLM message was not valid JSON") from exc
+            raise LLMResponseError(
+                "LLM message was not valid JSON",
+                diagnostic=LLMService._response_diagnostic(
+                    response, "message_content_json", "json"
+                ),
+            ) from exc
         if not isinstance(parsed, Mapping):
-            raise LLMResponseError("LLM JSON response must be an object")
+            raise LLMResponseError(
+                "LLM JSON response must be an object",
+                diagnostic=LLMService._response_diagnostic(
+                    response, "message_content_not_object", "json"
+                ),
+            )
         return parsed
+
+    @staticmethod
+    def _transport_error(error_class: type[LLMServiceError], message: str) -> LLMServiceError:
+        return error_class(
+            message,
+            diagnostic=LLMFailureDiagnostic(
+                stage="transport",
+                exception_class=error_class.__name__,
+            ),
+        )
+
+    @staticmethod
+    def _http_error(
+        error_class: type[LLMServiceError], message: str, response: Any
+    ) -> LLMServiceError:
+        provider_type = provider_code = provider_message = None
+        try:
+            error_body = response.json().get("error", {})
+            if isinstance(error_body, Mapping):
+                provider_type = LLMService._safe_text(error_body.get("type"), 100)
+                provider_code = LLMService._safe_text(error_body.get("code"), 100)
+                provider_message = LLMService._safe_text(error_body.get("message"), 500)
+        except (AttributeError, TypeError, ValueError):
+            pass
+        return error_class(
+            message,
+            diagnostic=LLMFailureDiagnostic(
+                stage="provider_http",
+                exception_class=error_class.__name__,
+                http_status=response.status_code,
+                provider_error_type=provider_type,
+                provider_error_code=provider_code,
+                provider_message=provider_message,
+                request_id=LLMService._safe_text(response.headers.get("x-request-id"), 200),
+                retry_after=LLMService._safe_text(response.headers.get("Retry-After"), 100),
+            ),
+        )
+
+    @staticmethod
+    def _response_diagnostic(response: Any, category: str, stage: str) -> LLMFailureDiagnostic:
+        return LLMFailureDiagnostic(
+            stage=stage,
+            exception_class=LLMResponseError.__name__,
+            http_status=getattr(response, "status_code", None),
+            request_id=LLMService._safe_text(
+                getattr(response, "headers", {}).get("x-request-id"), 200
+            ),
+            parse_category=category,
+        )
+
+    @staticmethod
+    def _safe_text(value: Any, limit: int) -> str | None:
+        if value is None:
+            return None
+        text = str(value).replace("\r", " ").replace("\n", " ")
+        text = re.sub(r"(?i)bearer\s+\S+", "Bearer [REDACTED]", text)
+        text = re.sub(r"\bsk-[A-Za-z0-9_-]{12,}\b", "[REDACTED]", text)
+        return text[:limit]

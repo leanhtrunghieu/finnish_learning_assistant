@@ -7,6 +7,7 @@ venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+node_modules/
 *.log
 tmp/
 
@@ -32,6 +33,11 @@ data/evaluation/*
 !data/evaluation/ml_split_manifest_v1.json
 !data/evaluation/ml_test_predictions_v1.jsonl
 !data/evaluation/grammar_cases_v1.jsonl
+!data/evaluation/vocabulary_cases_v1.jsonl
+!data/evaluation/grammar_evaluation_results_v1.jsonl
+!data/evaluation/exercise_evaluation_results_v1.jsonl
+!data/evaluation/grammar_manual_reviews_v1.jsonl
+!data/evaluation/exercise_manual_reviews_v1.jsonl
 
 *.db
 *.sqlite

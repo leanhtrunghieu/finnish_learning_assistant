@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from datetime import datetime
 from typing import Any
 
 import streamlit as st
@@ -46,9 +47,38 @@ def initialize_session_state() -> None:
         "practice_exercise": None,
         "practice_attempt": None,
         "practice_generation_error": None,
+        "practice_requested_topic": None,
     }
     for key, value in defaults.items():
         st.session_state.setdefault(key, value)
+
+
+def navigate_to(page: str) -> None:
+    """Move to an existing application page from an in-page action."""
+
+    st.session_state["nav_page"] = page
+
+
+def navigate_to_practice(error_type: ErrorType) -> None:
+    """Open Practice with an existing supported error type selected."""
+
+    clear_practice_state()
+    st.session_state["practice_requested_topic"] = error_type
+    st.session_state["nav_page"] = "Practice"
+
+
+def format_activity_time(value: str) -> str:
+    """Format stored timestamps without guessing a timezone for naive values."""
+
+    try:
+        timestamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return value
+    formatted = timestamp.strftime("%d %b %Y, %H:%M")
+    if timestamp.tzinfo is None:
+        return formatted
+    zone = timestamp.tzname() or timestamp.strftime("UTC%z")
+    return f"{formatted} {zone}"
 
 
 def profile_rows(profile: Any) -> list[dict[str, Any]]:
@@ -58,7 +88,7 @@ def profile_rows(profile: Any) -> list[dict[str, Any]]:
         {
             "Error type": error_type_label(weakness.error_type),
             "Count": weakness.count,
-            "Percentage": f"{weakness.percentage:.2f}%",
+            "Percentage": f"{weakness.percentage:.0f}%",
         }
         for weakness in profile.weaknesses
     ]

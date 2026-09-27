@@ -11,7 +11,12 @@ from app.models.grammar import (
     grammar_response_schema,
 )
 from app.services.grammar_service import GrammarService, GrammarServiceError
-from app.services.llm_service import LLMAuthenticationError, LLMResponseError, LLMServiceError
+from app.services.llm_service import (
+    LLMAuthenticationError,
+    LLMFailureDiagnostic,
+    LLMResponseError,
+    LLMServiceError,
+)
 
 
 class FakeClient:
@@ -157,6 +162,20 @@ def test_second_invalid_response_is_safe_service_error():
     with pytest.raises(GrammarServiceError, match="temporarily unavailable"):
         GrammarService(client).check_sentence("Minä menee kouluun.")
     assert len(client.calls) == 1
+
+
+def test_safe_diagnostic_survives_grammar_service_boundary():
+    diagnostic = LLMFailureDiagnostic(
+        stage="provider_http",
+        exception_class="LLMServiceError",
+        http_status=400,
+        provider_error_code="unsupported_parameter",
+    )
+    client = FakeClient([LLMServiceError("private provider detail", diagnostic=diagnostic)])
+    with pytest.raises(GrammarServiceError, match="temporarily unavailable") as captured:
+        GrammarService(client).check_sentence("Minä menee kouluun.")
+    assert captured.value.diagnostic is diagnostic
+    assert "private provider detail" not in str(captured.value)
 
 
 def test_authentication_failure_is_not_repaired_or_retried_by_grammar_service():

@@ -71,6 +71,20 @@ def test_successful_json_request_builds_provider_payload_without_exposing_key():
     assert kwargs["headers"]["Authorization"] == "Bearer secret-key"
     assert kwargs["json"]["messages"][1]["content"] == '{"sentence":"Äiti sanoi hei."}'
     assert kwargs["json"]["response_format"] == {"type": "json_object"}
+    assert kwargs["json"]["max_completion_tokens"] == 800
+    assert "max_tokens" not in kwargs["json"]
+
+
+def test_gpt_5_6_uses_temperature_compatible_reasoning_mode():
+    session = FakeSession([envelope({"ok": True})])
+    LLMService(
+        settings(model="gpt-5.6-luna", temperature=0.0),
+        session=session,
+        sleep_fn=lambda _: None,
+    ).request_json(system_prompt="system", user_payload={}, response_schema={})
+    payload = session.calls[0][1]["json"]
+    assert payload["temperature"] == 0.0
+    assert payload["reasoning_effort"] == "none"
 
 
 def test_missing_api_key_fails_before_network_call():
@@ -118,12 +132,27 @@ def test_rate_limit_retries_once_then_succeeds():
 
 
 def test_provider_4xx_is_controlled_without_retry():
-    session = FakeSession([FakeResponse(status_code=400)])
-    with pytest.raises(LLMProviderError, match="rejected"):
+    session = FakeSession([
+        FakeResponse(
+            status_code=400,
+            content={"error": {"type": "invalid_request_error", "code": "bad_field", "message": "Bad field"}},
+            headers={"x-request-id": "req_safe"},
+        )
+    ])
+    with pytest.raises(LLMProviderError, match="rejected") as captured:
         LLMService(settings(), session=session).request_json(
             system_prompt="system", user_payload={}, response_schema={}
         )
     assert len(session.calls) == 1
+    assert captured.value.diagnostic.to_safe_dict() == {
+        "stage": "provider_http",
+        "exception_class": "LLMProviderError",
+        "http_status": 400,
+        "provider_error_type": "invalid_request_error",
+        "provider_error_code": "bad_field",
+        "provider_message": "Bad field",
+        "request_id": "req_safe",
+    }
 
 
 def test_malformed_provider_envelope_and_message_json_are_rejected():

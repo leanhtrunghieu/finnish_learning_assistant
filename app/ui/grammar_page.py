@@ -5,11 +5,13 @@ from __future__ import annotations
 import streamlit as st
 
 from app.config import Settings
-from app.models.grammar import GrammarResult, LanguageMode
+from app.models.exercise import SUPPORTED_GENERATION_ERROR_TYPES
+from app.models.grammar import MAX_SENTENCE_CHARS, GrammarResult, LanguageMode
 from app.services.database_service import DatabaseError, DatabaseService, DEFAULT_LEARNER_ID
 from app.services.grammar_service import GrammarService, GrammarServiceError
-from app.ui.common import error_type_label
+from app.ui.common import error_type_label, navigate_to, navigate_to_practice
 from app.ui.services import get_database_service, get_grammar_service
+from app.ui.theme import render_eyebrow
 
 
 def _language_mode_label(mode: LanguageMode) -> str:
@@ -22,28 +24,70 @@ def _language_mode_label(mode: LanguageMode) -> str:
 def render_grammar_result(result: GrammarResult, *, check_id: int | None = None) -> None:
     """Render a validated result without exposing provider JSON."""
 
-    st.subheader("Result")
-    st.caption(f"Original: {result.original_sentence}")
+    st.subheader("Your feedback")
     if result.is_correct:
-        st.success("✓ No grammar errors detected")
+        st.success("No grammar errors detected", icon="✅")
+        with st.container(border=True):
+            st.caption("YOUR SENTENCE")
+            st.markdown(f"### {result.original_sentence}")
     else:
-        st.error("Grammar issue detected")
-        st.markdown(f"**Corrected sentence:** {result.corrected_sentence}")
-        st.markdown("**Detected errors**")
+        st.error(
+            f"Review {len(result.errors)} grammar mistake(s)",
+            icon="❌",
+        )
+        comparison = st.columns(2)
+        with comparison[0]:
+            with st.container(border=True):
+                st.caption("YOUR SENTENCE")
+                st.markdown(f"### {result.original_sentence}")
+        with comparison[1]:
+            with st.container(border=True):
+                st.caption("CORRECTED SENTENCE")
+                st.markdown(f"### {result.corrected_sentence}")
+
+        st.markdown("#### What changed")
         for index, error in enumerate(result.errors, start=1):
             with st.container(border=True):
                 st.markdown(f"**{index}. {error_type_label(error.error_type)}**")
-                st.write(f"Text: `{error.text}` → `{error.correction}`")
+                st.markdown(f"`{error.text}`  →  **{error.correction}**")
                 st.write(error.explanation)
-                st.caption(f"Model-reported confidence: {error.confidence:.2f}")
+                if error.error_type in SUPPORTED_GENERATION_ERROR_TYPES:
+                    st.button(
+                        "Practice this pattern",
+                        key=f"practice_error_{index}_{error.error_type.value}",
+                        type="tertiary",
+                        icon=":material/fitness_center:",
+                        on_click=navigate_to_practice,
+                        args=(error.error_type,),
+                    )
     if result.analysis_status.value == "UNCERTAIN" and result.uncertainty_note:
-        st.warning(f"Analysis uncertainty: {result.uncertainty_note}")
+        st.warning(f"This analysis may need a closer look: {result.uncertainty_note}")
     if result.overall_explanation:
-        st.markdown(f"**Explanation:** {result.overall_explanation}")
+        with st.container(border=True):
+            st.markdown("#### Why this works")
+            st.write(result.overall_explanation)
     if result.learning_tip:
-        st.info(f"**Learning tip:** {result.learning_tip}")
+        st.info(f"**Learning tip**  \n{result.learning_tip}", icon="💡")
+    if result.errors:
+        with st.expander("Technical details", icon=":material/info:"):
+            st.caption(
+                "These provider-reported confidence values are technical metadata, not a guarantee of correctness."
+            )
+            for index, error in enumerate(result.errors, start=1):
+                st.write(
+                    f"Error {index} · {error_type_label(error.error_type)} · "
+                    f"confidence {error.confidence:.2f}"
+                )
     if check_id is not None:
-        st.caption(f"Saved to learner history (check {check_id}).")
+        st.caption("Saved to your learning history.")
+
+    st.button(
+        "View in My Mistakes",
+        key=f"view_history_{check_id or 'current'}",
+        icon=":material/history:",
+        on_click=navigate_to,
+        args=("My Mistakes",),
+    )
 
 
 def analyze_and_persist(
@@ -79,22 +123,35 @@ def render_grammar_page(
 ) -> None:
     """Render grammar analysis; provider calls happen only on form submit."""
 
+    render_eyebrow("Check and understand")
     st.title("Grammar Checker")
-    st.write("Enter one Finnish sentence and receive a structured, learner-friendly analysis.")
+    st.write("Write one Finnish sentence. You will get a clear correction and an explanation you can learn from.")
     with st.form("grammar_form", clear_on_submit=False):
         sentence = st.text_area(
             "Finnish sentence",
             key="grammar_sentence_input",
             height=120,
+            max_chars=MAX_SENTENCE_CHARS,
             placeholder="Minä menee kouluun.",
+            help=f"Enter one sentence, up to {MAX_SENTENCE_CHARS} characters.",
         )
-        mode = st.selectbox(
-            "Analysis mode",
-            options=list(LanguageMode),
-            format_func=_language_mode_label,
-            key="grammar_language_mode",
+        with st.expander("Analysis preferences", icon=":material/tune:"):
+            st.caption(
+                "Standard checks formal written Finnish. Colloquial-tolerant accepts common spoken structures when appropriate."
+            )
+            mode = st.selectbox(
+                "Finnish style",
+                options=list(LanguageMode),
+                format_func=_language_mode_label,
+                key="grammar_language_mode",
+                help="Choose the style you want the sentence to be checked against.",
+            )
+        submitted = st.form_submit_button(
+            "Check my sentence",
+            type="primary",
+            icon=":material/spellcheck:",
+            width="stretch",
         )
-        submitted = st.form_submit_button("Check Grammar", type="primary")
 
     if submitted:
         st.session_state["grammar_result"] = None
